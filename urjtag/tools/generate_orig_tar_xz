@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+#  generate_orig_tar_xz
+#   creates a tarball
+#
+#   Written because Debian packaging requires
+#   more or less an original tarball from upstream
+#
+if [ -z "${1}" ] ; then
+    echo "E:Provide the svn revision number (rNNNN)" 1>&2
+    exit 1
+else
+    SRN=${1}
+fi
+
+if [ ! -d ../urjtag -o ! -d ../web ] ; then
+    echo E: script not started in the urjtag directory of the urjtag project
+    echo I: \`cd\` to the 'urjtag' directory
+    exit 1
+else
+    # go to the directory where `git archive` can do it's job
+    cd ..
+fi
+if [ ! -d ./urjtag -o ! -d ./web -o ! -d ./urjtag/tools ] ; then
+    echo E: Not in the expected urjtag project directory structure
+    echo I: Find out who\'s expections are wrong
+    echo I:  Yours or those of the programmer of this script
+    exit 1
+fi
+
+# Package Name plus version
+PNPV=urjtag-0.10
+
+# Package Name plus version underscore
+PNPVU=$( echo ${PNPV} | sed -e 's/-/_/' )
+
+# This Version
+TV="${PNPVU}+${SRN}"
+
+LOGFILE=urjtag/${0}.log
+
+echo Your request for ../${TV}.orig.tar.xz is work in progress
+
+git archive --format=tar --prefix=${TV}/ \
+   HEAD:urjtag/ | xz > ${TV}.orig.tar.xz
+
+# l l

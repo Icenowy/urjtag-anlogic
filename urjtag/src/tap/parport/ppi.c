@@ -213,7 +213,7 @@ ppi_set_control (urj_parport_t *parport, unsigned char data)
 
     uint8_t d = data ^ 0x0B;    /* SELECT, AUTOFD, and STROBE are inverted */
 
-    if (ioctl (p->fd, PPIGCTRL, &d) == -1)
+    if (ioctl (p->fd, PPISCTRL, &d) == -1)
     {
         urj_error_IO_set ("ioctl(PPIGCTRL) fails");
         return URJ_STATUS_FAIL;

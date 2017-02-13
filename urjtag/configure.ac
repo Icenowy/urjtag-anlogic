@@ -101,9 +101,8 @@ AC_CONFIG_HEADERS(include/urjtag/urjtag.h)
 
 AC_GNU_SOURCE
 
-dnl gettext-0.17 was released in 2007
 AM_GNU_GETTEXT(external)
-AM_GNU_GETTEXT_VERSION(0.17)
+AM_GNU_GETTEXT_VERSION(0.19)
 
 LT_INIT
 AC_PROG_CC

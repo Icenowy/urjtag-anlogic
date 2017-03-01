@@ -1,3 +1,7 @@
+2017-03-01 Tomek CEDRO <CeDeROM@tlen.pl>
+  * acinclude.m4: Reverted AS_VAR_APPEND macro that broke autoconf-2.69
+    build (introduced 2010-02-03).
+
 2014-08-03  Mike Frysinger  <vapier@gentoo.org>
 
   * src/cmd/Makefile.am: Switch generated_cmd_list.h to BUILT_SOURCES rather

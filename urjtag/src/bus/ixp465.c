@@ -84,8 +84,8 @@ ixp465_bus_new (urj_chain_t *chain,
     bus = urj_bus_generic_new (chain, driver, sizeof (bus_params_t));
          if (bus == NULL)
                  return NULL;
-                 part = bus->part;
 
+    part = bus->part;
 
     for (i = 0; i < 8; i++) {
         sprintf (buff, "ex_cs_n_%d", i);

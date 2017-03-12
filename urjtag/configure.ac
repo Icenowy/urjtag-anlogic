@@ -297,9 +297,9 @@ AS_IF([test "x$with_ftd2xx" = xyes -o "x$with_ftd2xx" = xcheck], [
     *cygwin*|*mingw*)
       CFLAGS="$CFLAGS -I$with_ftd2xx"
       AS_IF([test -d "$with_ftd2xx/i386"], [
-        FTD2XXLIB="$with_ftd2xx/i386/ftd2xx.lib"
+        FTD2XXLIB="-L$with_ftd2xx/i386 -l:ftd2xx.lib"
       ],[
-        FTD2XXLIB="$with_ftd2xx/ftd2xx.lib"
+        FTD2XXLIB="-L$with_ftd2xx -l:ftd2xx.lib"
       ])
       ;;
     *)

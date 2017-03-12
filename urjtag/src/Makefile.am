@@ -54,7 +54,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = urjtag.pc
 
 lib_LTLIBRARIES = liburjtag.la
-liburjtag_la_LDFLAGS = -version-info 0:0:0
+liburjtag_la_LDFLAGS = -version-info 0:0:0 -no-undefined
 
 liburjtag_la_SOURCES =
 

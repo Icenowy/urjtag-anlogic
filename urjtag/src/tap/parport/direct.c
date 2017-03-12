@@ -38,7 +38,9 @@
 #include "../parport.h"
 
 #if defined(HAVE_INPOUTXX)
-
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
 static HINSTANCE inpout32_dll_handle = NULL;
 
 typedef short _stdcall (*inpfuncPtr) (short p);

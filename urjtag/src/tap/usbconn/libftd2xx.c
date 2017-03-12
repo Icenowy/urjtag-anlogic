@@ -31,7 +31,15 @@
 #include <stdint.h>
 #include <unistd.h>
 
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#ifndef _WIN32
+#define _WIN32
+#endif
+#endif
+
 #include <ftd2xx.h>
+#undef interface
 
 #include <urjtag/error.h>
 #include <urjtag/log.h>

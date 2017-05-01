@@ -1,0 +1,11 @@
+#
+# .travis.yml
+# https://travis-ci.com/plans
+#
+
+language: c
+compiler:
+  - gcc
+script: make
+
+# l l

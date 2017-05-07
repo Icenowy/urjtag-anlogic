@@ -559,7 +559,7 @@ vsllink_set_signal (urj_cable_t *cable, int mask, int val)
 
 const urj_cable_driver_t urj_tap_cable_vsllink_driver = {
     "vsllink",
-    N_("Versaloon Link -- http://www.versaloon.com."),
+    N_("Versaloon Link -- https://github.com/versaloon/versaloon"),
     URJ_CABLE_DEVICE_USB,
     { .usb = urj_tap_cable_generic_usbconn_connect, },
     urj_tap_cable_generic_disconnect,

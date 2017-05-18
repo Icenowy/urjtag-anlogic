@@ -45,6 +45,7 @@
 
 /* pin mapping */
 enum {
+    GPIO_UNSET = -1,
     GPIO_TDI = 0,
     GPIO_TCK,
     GPIO_TMS,
@@ -216,10 +217,10 @@ gpio_connect (urj_cable_t *cable, const urj_param_t *params[])
         return URJ_STATUS_FAIL;
     }
 
-    cable_params->jtag_gpios[GPIO_TDI] = GPIO_REQUIRED;
-    cable_params->jtag_gpios[GPIO_TDO] = GPIO_REQUIRED;
-    cable_params->jtag_gpios[GPIO_TMS] = GPIO_REQUIRED;
-    cable_params->jtag_gpios[GPIO_TCK] = GPIO_REQUIRED;
+    cable_params->jtag_gpios[GPIO_TDI] = GPIO_UNSET;
+    cable_params->jtag_gpios[GPIO_TDO] = GPIO_UNSET;
+    cable_params->jtag_gpios[GPIO_TMS] = GPIO_UNSET;
+    cable_params->jtag_gpios[GPIO_TCK] = GPIO_UNSET;
     if (params != NULL)
         /* parse arguments beyond the cable name */
         for (i = 0; params[i] != NULL; i++)
@@ -253,7 +254,7 @@ gpio_connect (urj_cable_t *cable, const urj_param_t *params[])
      */
 
     for (i = GPIO_TDI; i <= GPIO_TDO; i++)
-        if (cable_params->jtag_gpios[i] == GPIO_REQUIRED)
+        if (cable_params->jtag_gpios[i] == GPIO_UNSET)
         {
             urj_error_set (URJ_ERROR_SYNTAX, _("missing required gpios\n"));
             gpio_help (URJ_ERROR_SYNTAX, "gpio");

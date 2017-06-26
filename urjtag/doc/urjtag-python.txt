@@ -109,8 +109,7 @@ we must call shift_ir:
 
  urc.shift_ir()
 
-
-For each data register, the chain object tracks two register values.
+For each data register, the chain object tracks two values.
 The "input" register value is sent to the device(s) on the TDI pin,
 and changes the device's status in the DR_UPDATE state.  The "output"
 register value is built up of the values observed on the TDO pin.
@@ -156,10 +155,34 @@ bits) is also possible:
  drval = urc.get_dr_out_string();
  printf("  set_dr_out result: %s %02x\n", drval, r)
 
-
 Remember to call shift_dr() before making use of values read with get_dr_in(),
 and after changing values written with set_dr_out().
 
+
+
+Urjtag register objects
+
+When using multiple data registers, not remembering to call set_instruction
+and shift_ir before doing set_dr and shift_dr can lead to annoying
+bugs.  Avoid this and write cleaner code by obtaining a python object
+corresponding to each data register:
+
+ # part 0, data register FOOREG, using instruction INSTFOO
+ regf = urc.get_register(0, 'FOOREG', 'INSTFOO');
+ # part 1, BARREG, INSTBAR1
+ regb = urc.get_register(1, 'BARREG', 'INSTBAR1');
+
+ regf.set_dr_out(0, 3, 7);
+ regb.set_dr_out(1, 8, 5);
+ regf.shift_dr();
+ regb.shift_dr();
+ regb.shift_dr('INSTBAR2');  // use alternate instruction with BARREG
+
+ v = regb.get_dr_in(15, 11);
+ s = regf.get_dr_in_string();
+
+Calling shift_dr on a register object has the same effect as calling
+chain.part() followed by chain.set_instruction().
 
 
 
@@ -205,7 +228,7 @@ implicit global bus, and only one bus can be active at a time.
  urc.detectflash(i)
  val = urc.peek(addr)
  urc.poke(addr,val)
- urj.flashmem(options, filename, noverify=0)
+ urc.flashmem(options, filename, noverify=0)
 
 FUTURE: detectflash, peek, poke, and flashmem will be a methods in a new
 urjtag.bus class, not methods of urjtag.chain.

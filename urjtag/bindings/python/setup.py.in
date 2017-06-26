@@ -5,7 +5,7 @@ setup(name="urjtag",
       version="1.0",
       description="urJtag Python Bindings",
       ext_modules=[
-        Extension("urjtag", ["chain.c"],
+        Extension("urjtag", ["chain.c", "register.c"],
                   define_macros=[('HAVE_CONFIG_H', None)],
                   include_dirs=['@top_srcdir@', '@top_srcdir@/include'],
                   library_dirs=['@top_builddir@/src/.libs'],

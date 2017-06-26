@@ -32,16 +32,34 @@
 #include <urjtag/chain.h>
 #include <urjtag/cmd.h>
 
-static PyObject *UrjtagError;
+#include "py_urjtag.h"
+
+PyObject *UrjtagError;
 
 typedef struct
 {
     PyObject_HEAD urj_chain_t *urchain;
+    urj_pyregister_t *reglist;
 } urj_pychain_t;
+
+
+static void urj_pyc_invalidate_reglist(urj_pychain_t *self)
+{
+    urj_pyregister_t *r;
+    while(self->reglist) {
+        self->reglist->inst = NULL;
+        self->reglist->urreg = NULL;
+        r = self->reglist;
+        self->reglist = self->reglist->next;
+        Py_DECREF (r);
+    }
+}
 
 static void
 urj_pyc_dealloc (urj_pychain_t *self)
 {
+    urj_tap_chain_flush (self->urchain);
+    urj_pyc_invalidate_reglist (self);
     urj_tap_chain_free (self->urchain);
     Py_TYPE (self)->tp_free ((PyObject *) self);
 }
@@ -74,7 +92,7 @@ urj_pyc_new (PyTypeObject *type, PyObject *args, PyObject *kwds)
  * if OK, return python "none".
  * else, throw a python exception
  */
-static PyObject *
+PyObject *
 urj_py_chkret (int rc)
 {
     if (rc == URJ_STATUS_OK)
@@ -91,16 +109,12 @@ urj_py_chkret (int rc)
     return NULL;
 }
 
-#define UPRC_CBL 1
-#define UPRC_DET 2
-#define UPRC_BUS 4
-
 /* perform selected prerequesite checks on the state of a chain object
  * returns nonzero on success.
  * if 0 is returned, python exception has been posted and
  *     caller must return NULL to signal python exception.
  */
-static int
+int
 urj_pyc_precheck (urj_chain_t *urc, int checks_needed)
 {
     if (urc == NULL)
@@ -171,6 +185,18 @@ urj_pyc_cable (urj_pychain_t *self, PyObject *args)
 }
 
 static PyObject *
+urj_pyc_flush (urj_pychain_t *self)
+{
+    urj_chain_t *urc = self->urchain;
+
+    if (!urj_pyc_precheck (urc, UPRC_CBL))
+        return NULL;
+
+    urj_tap_chain_flush (urc);
+    return Py_BuildValue ("");
+}
+
+static PyObject *
 urj_pyc_disconnect (urj_pychain_t *self)
 {
     urj_chain_t *urc = self->urchain;
@@ -198,6 +224,8 @@ urj_pyc_tap_detect (urj_pychain_t *self, PyObject *args)
         return NULL;
     if (!urj_pyc_precheck (urc, UPRC_CBL))
         return NULL;
+
+    urj_pyc_invalidate_reglist(self);
     return urj_py_chkret (urj_tap_detect (urc, maxirlen));
 }
 
@@ -275,6 +303,18 @@ urj_pyc_get_trst (urj_pychain_t *self)
 
     trstval = urj_tap_chain_get_trst (urc);
     return Py_BuildValue ("i", trstval);
+}
+
+static PyObject *
+urj_pyc_get_tdo (urj_pychain_t *self)
+{
+    int tdoval;
+    urj_chain_t *urc = self->urchain;
+    if (!urj_pyc_precheck (urc, UPRC_CBL))
+        return NULL;
+
+    tdoval = urj_tap_cable_get_tdo (urc->cable);
+    return Py_BuildValue ("i", tdoval);
 }
 
 static PyObject *
@@ -388,6 +428,7 @@ urj_pyc_get_dr (urj_pychain_t *self, int in, int string, PyObject *args)
     urj_part_instruction_t *active_ir;
     int lsb = -1;
     int msb = -1;
+    const char *value_string;
 
     if (!PyArg_ParseTuple (args, "|ii", &msb, &lsb))
         return NULL;
@@ -421,20 +462,26 @@ urj_pyc_get_dr (urj_pychain_t *self, int in, int string, PyObject *args)
     else
         r = dr->out;            /* recently captured+scanned-out values */
 
-    if (msb == -1)
-    {
-        if (string)
-            return Py_BuildValue ("s", urj_tap_register_get_string (r));
-        else
-            return Py_BuildValue ("L", urj_tap_register_get_value (r));
-    }
+    if (in)
+        r = dr->in;             /* input buffer for next shift_dr */
     else
+        r = dr->out;            /* recently captured+scanned-out values */
+
+    if (msb == -1)
+        value_string = urj_tap_register_get_string (r);
+    else
+        value_string = urj_tap_register_get_string_bit_range (r, msb, lsb);
+    if (value_string == NULL)
     {
-        if (string)
-            return Py_BuildValue (""); /* TODO urj_tap_register_get_string_bit_range (r, msb, lsb)); */
-        else
-            return Py_BuildValue ("L", urj_tap_register_get_value_bit_range (r, msb, lsb));
+        PyErr_SetString (UrjtagError,
+                         _("error obtaining tap register value"));
+        return NULL;
     }
+
+    if (string)
+        return Py_BuildValue ("s", value_string);
+    else
+        return PyLong_FromString((char *)value_string, NULL, 2);
 }
 
 static PyObject *
@@ -477,7 +524,7 @@ urj_pyc_set_dr (urj_pychain_t *self, int in, PyObject *args)
     if (!PyArg_ParseTuple (args, "s|ii", &newstr, &msb, &lsb))
     {
         PyErr_Clear ();
-        if (!PyArg_ParseTuple (args, "L|ii", &newval, &msb, &lsb))
+        if (!PyArg_ParseTuple (args, "K|ii", &newval, &msb, &lsb))
             return NULL;
     }
 
@@ -522,8 +569,7 @@ urj_pyc_set_dr (urj_pychain_t *self, int in, PyObject *args)
             lsb = msb;
 
         if (newstr)
-            /* TODO urj_tap_register_set_string_bit_range(r, newstr, msb, lsb); */
-            return Py_BuildValue ("");
+            return urj_py_chkret (urj_tap_register_set_string_bit_range(r, newstr, msb, lsb));
         else
             return urj_py_chkret (urj_tap_register_set_value_bit_range(r, newval, msb, lsb));
     }
@@ -604,7 +650,7 @@ urj_pyc_addpart (urj_pychain_t *self, PyObject *args)
     }
 
     urj_part_parts_set_instruction (urc->parts, "BYPASS");
-    urj_tap_chain_shift_instructions (urc);
+//    urj_tap_chain_shift_instructions (urc);
     return Py_BuildValue ("");
 }
 
@@ -809,6 +855,62 @@ urj_pyc_flashmem (urj_pychain_t *self, PyObject *args)
     return Py_BuildValue ("i", r);
 }
 
+static PyObject *
+urj_pyc_get_register (urj_pychain_t *self, PyObject *args)
+{
+    urj_chain_t *urc = self->urchain;
+    int partn;
+    char *regname = NULL;
+    char *instname = NULL;
+    urj_part_t *p;
+    urj_data_register_t *dr;
+    urj_pyregister_t *reg;
+    urj_part_instruction_t *inst;
+
+    PyTypeObject *regtype = &urj_pyregister_Type;
+
+    if (!urj_pyc_precheck (urc, UPRC_CBL|UPRC_DET))
+        return NULL;
+    if (!PyArg_ParseTuple (args, "is|s", &partn, &regname, &instname))
+        return NULL;
+    
+    if(partn < 0 || partn > urc->parts->len) {
+         PyErr_SetString (UrjtagError,
+                          _("part number out of range for chain length"));
+         return NULL;
+    }
+    p = urc->parts->parts[partn];
+
+    dr = urj_part_find_data_register (p, regname);
+    if(dr == NULL) {
+         PyErr_SetString (UrjtagError,
+                          _("get_register: register not found"));
+         return NULL;
+    }
+    if(instname) {
+        inst = urj_part_find_instruction (p, instname);
+        if(inst == NULL) {
+            PyErr_SetString (UrjtagError,
+                             _("get_register: instruction not found"));
+            return NULL;
+        }
+    } else {
+        inst = NULL;
+    }
+
+    reg = (urj_pyregister_t *) PyObject_New (urj_pyregister_t*, regtype);
+    reg->part = partn;
+    reg->urreg = dr;
+    reg->urc = urc;
+    reg->inst = inst;
+
+    Py_INCREF(reg);
+    reg->next = self->reglist;
+    self->reglist = reg;
+    return (PyObject *) reg;
+}
+
+
 static PyMethodDef urj_pyc_methods[] =
 {
     {"cable", (PyCFunction) urj_pyc_cable, METH_VARARGS,
@@ -823,12 +925,16 @@ static PyMethodDef urj_pyc_methods[] =
      "Return the length of the TAP chain"},
     {"reset", (PyCFunction) urj_pyc_reset, METH_NOARGS,
      "Perform jtag reset using TMS"},
+    {"flush", (PyCFunction) urj_pyc_flush, METH_NOARGS,
+     "Flush the chain output"},
     {"partid", (PyCFunction) urj_pyc_partid, METH_VARARGS,
      "Return the IDCODE for the indicated part number in the chain"},
     {"set_trst", (PyCFunction) urj_pyc_set_trst, METH_VARARGS,
      "set the TRST output of the cable"},
     {"get_trst", (PyCFunction) urj_pyc_get_trst, METH_NOARGS,
      "get the current value of the TRST output of the cable"},
+    {"get_tdo", (PyCFunction) urj_pyc_get_tdo, METH_NOARGS,
+     "get the current value of the TDO output of the cable"},
     {"set_pod_signal", (PyCFunction) urj_pyc_set_pod_signal, METH_VARARGS,
      "set an auxiliary pod signal"},
     {"get_pod_signal", (PyCFunction) urj_pyc_get_pod_signal, METH_VARARGS,
@@ -843,7 +949,6 @@ static PyMethodDef urj_pyc_methods[] =
      "scan values through the instruction register"},
     {"shift_dr", (PyCFunction) urj_pyc_shift_dr, METH_NOARGS,
      "scan values through the data register"},
-
     {"get_dr_in_string", (PyCFunction) urj_pyc_get_str_dr_in, METH_VARARGS,
      "get bits that will be scanned in on next shift_dr, as string"},
     {"get_dr_out_string", (PyCFunction) urj_pyc_get_str_dr_out, METH_VARARGS,
@@ -852,7 +957,6 @@ static PyMethodDef urj_pyc_methods[] =
      "get bits that will be scanned in on next shift_dr, as integer"},
     {"get_dr_out", (PyCFunction) urj_pyc_get_int_dr_out, METH_VARARGS,
      "retrieve values scanned out from the data registers on the last shift_dr, as integer"},
-
     {"set_dr_in", (PyCFunction) urj_pyc_set_dr_in, METH_VARARGS,
      "set bits that will be scanned in on next shiftdr"},
     {"set_dr_out", (PyCFunction) urj_pyc_set_dr_out, METH_VARARGS,
@@ -877,13 +981,16 @@ static PyMethodDef urj_pyc_methods[] =
      "write a single word"},
     {"flashmem", (PyCFunction) urj_pyc_flashmem, METH_VARARGS,
      "burn flash memory with data from a file"},
+    {"get_register", (PyCFunction)urj_pyc_get_register, METH_VARARGS,
+     "retrieve register object for convenient set_dr/shift_dr use"},
+
     {NULL}                      /* Sentinel */
 };
 
 static PyTypeObject urj_pychain_Type =
 {
     PyVarObject_HEAD_INIT (NULL, 0) "urjtag.chain", /* tp_name */
-    sizeof (urj_pychain_t),             /* tp_basicsize */
+    sizeof (urj_pychain_t),     /* tp_basicsize */
     0,                          /* tp_itemsize */
     (destructor) urj_pyc_dealloc, /* tp_dealloc */
     0,                          /* tp_print */
@@ -908,7 +1015,7 @@ static PyTypeObject urj_pychain_Type =
     0,                          /* tp_weaklistoffset */
     0,                          /* tp_iter */
     0,                          /* tp_iternext */
-    urj_pyc_methods,              /* tp_methods */
+    urj_pyc_methods,            /* tp_methods */
     0,                          /* tp_members */
     0,                          /* tp_getset */
     0,                          /* tp_base */
@@ -918,7 +1025,7 @@ static PyTypeObject urj_pychain_Type =
     0,                          /* tp_dictoffset */
     0,                          /* tp_init */
     0,                          /* tp_alloc */
-    urj_pyc_new,                  /* tp_new */
+    urj_pyc_new,                /* tp_new */
 };
 
 /************************************************************************
@@ -942,7 +1049,7 @@ static PyMethodDef module_methods[] =
     {NULL}                      /* Sentinel */
 };
 
-static struct PyModuleDef chain_moduledef =
+static struct PyModuleDef urjtag_moduledef =
 {
     PyModuleDef_HEAD_INIT,
     "urjtag",
@@ -957,8 +1064,10 @@ MODINIT_DECL (urjtag)
 
     if (PyType_Ready (&urj_pychain_Type) < 0)
         return MODINIT_ERROR_VAL;
+    if (PyType_Ready (&urj_pyregister_Type) < 0)
+        return MODINIT_ERROR_VAL;
 
-    m = PyModule_Create (&chain_moduledef);
+    m = PyModule_Create (&urjtag_moduledef);
 
     if (m == NULL)
         return MODINIT_ERROR_VAL;
@@ -987,6 +1096,8 @@ MODINIT_DECL (urjtag)
 
     Py_INCREF (&urj_pychain_Type);
     PyModule_AddObject (m, "chain", (PyObject *) &urj_pychain_Type);
+    Py_INCREF (&urj_pyregister_Type);
+    PyModule_AddObject (m, "register", (PyObject *) &urj_pyregister_Type);
 
     return MODINIT_SUCCESS_VAL (m);
 }

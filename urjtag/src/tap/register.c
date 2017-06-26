@@ -191,6 +191,72 @@ urj_tap_register_set_string (urj_tap_register_t *tr, const char *str)
 }
 
 int
+urj_tap_register_set_string_bit_range (urj_tap_register_t *tr, const char *str, int msb, int lsb)
+{
+    int step = msb >= lsb ? 1 : -1;
+    int len =  msb >= lsb ? msb - lsb + 1 : lsb - msb + 1;
+    int sidx;
+
+    if (!tr)
+    {
+        urj_error_set (URJ_ERROR_INVALID, "tr == NULL");
+        return URJ_STATUS_FAIL;
+    }
+
+    if (msb > tr->len - 1 || lsb > tr->len - 1 || msb < 0 || lsb < 0)
+    {
+        urj_error_set (URJ_ERROR_OUT_OF_BOUNDS,
+                       _("register %d:%d will not fit in %d bits"),
+                       msb, lsb, tr->len);
+        return URJ_STATUS_FAIL;
+    }
+
+    if (strncmp (str, "0x", 2) == 0)
+    {
+        /* Hex values */
+        uint64_t val;
+
+	//printf("in urj_tap_register_set_string_bit_range(%s) hexmode\n", str);
+        if (sscanf (str, "%"PRIX64, &val) != 1)
+        {
+            urj_error_set (URJ_ERROR_SYNTAX,
+                           _("invalid hex string '%s'"),
+                           str);
+            return URJ_STATUS_FAIL;
+        }
+        return urj_tap_register_set_value_bit_range (tr, val, msb, lsb);
+    }
+    else
+    {
+        /* Bit string */
+        int bit;
+
+	//printf("in urj_tap_register_set_string_bit_range(%s, %d, %d) binmode len=%d step=%d\n", str, msb, lsb, len, step);
+        if (strspn (str, "01") != strlen (str))
+        {
+            urj_error_set (URJ_ERROR_SYNTAX,
+                           _("bit patterns should be 0s and 1s, not '%s'"),
+                           str);
+            return URJ_STATUS_FAIL;
+        }
+        else if (len != strlen (str))
+        {
+            urj_error_set (URJ_ERROR_OUT_OF_BOUNDS,
+                           _("register subfield length %d mismatch: %zd"),
+                           len, strlen (str));
+            return URJ_STATUS_FAIL;
+        }
+
+        for (sidx = 0, bit = msb; bit*step >= lsb*step; bit -= step, sidx++)
+        {
+            tr->data[bit] = (str[sidx] == '1');
+        }
+
+        return URJ_STATUS_OK;
+    }
+}
+
+int
 urj_tap_register_set_value_bit_range (urj_tap_register_t *tr, uint64_t val, int msb, int lsb)
 {
     int bit;
@@ -223,6 +289,34 @@ int
 urj_tap_register_set_value (urj_tap_register_t *tr, uint64_t val)
 {
     return urj_tap_register_set_value_bit_range (tr, val, tr->len - 1, 0);
+}
+
+const char *
+urj_tap_register_get_string_bit_range (const urj_tap_register_t *tr, int msb, int lsb)
+{
+    int bit;
+    int string_idx;
+    int step = msb >= lsb ? 1 : -1;
+
+    if (!tr)
+    {
+        urj_error_set (URJ_ERROR_INVALID, "tr == NULL");
+        return NULL;
+    }
+
+    if (msb > tr->len - 1 || lsb > tr->len - 1 || msb < 0 || lsb < 0) 
+    {
+        urj_error_set (URJ_ERROR_INVALID, "msb or lsb out of range");
+        return NULL;
+    }
+
+    for (bit = msb, string_idx = 0; bit * step >= lsb * step; bit -= step, string_idx++)
+    {
+        tr->string[string_idx] = (tr->data[bit] & 1) ? '1' : '0';
+    }
+    tr->string[string_idx] = '\0';
+
+    return tr->string;
 }
 
 const char *

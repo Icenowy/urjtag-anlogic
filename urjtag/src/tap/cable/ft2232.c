@@ -2349,7 +2349,7 @@ const urj_cable_driver_t urj_tap_cable_ft2232_armusbtiny_h_driver = {
     ft2232_cable_free,
     ft2232_armusbtiny_h_init,
     ft2232_armusbocd_done,
-    ft2232_set_frequency,
+    ft2232h_set_frequency,
     ft2232_clock,
     ft2232_get_tdo,
     ft2232_transfer,

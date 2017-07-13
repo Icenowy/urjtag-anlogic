@@ -50,8 +50,8 @@ For the 4232, we add "urj_tap_cable_ft2232_ft4232_driver"
 
 3. Add a _URJ_CABLE entry to tap/cable_list.h
 The argument to the macro is the unique part of the urj_cable_driver_t
-name added to ft2232.c in step 2 above. For example 
-     _URJ_CABLE(ft2232_ft4232) 
+name added to ft2232.c in step 2 above. For example
+     _URJ_CABLE(ft2232_ft4232)
 goes with
      extern const urj_cable_driver_t urj_tap_cable_ft2232_ft4232_driver
 
@@ -63,5 +63,4 @@ ftdichip USB drivers that is used to look up defaults.
 5. If you did step 4, finish it by adding an entry to
 src/tap/cable/generic_usbconn_list.h.   Each entry is a _URJ_USB_FTDX()
 macro.  The one argument to the _URJ_USB_FTDX() macro is the last argument to
-the URJ_DECLARE_FTDX_CABLE. 
-
+the URJ_DECLARE_FTDX_CABLE.

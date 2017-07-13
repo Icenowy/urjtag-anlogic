@@ -62,6 +62,7 @@ _URJ_USB_FTDX(usbjtagrs232)
 _URJ_USB_FTDX(usbscarab2)
 _URJ_USB_FTDX(usbtojtagif)
 _URJ_USB_FTDX(digilenths1)
+_URJ_USB_FTDX(ft4232)
 #endif
 #ifdef ENABLE_CABLE_USBBLASTER
 _URJ_USB_FTDX(usbblaster)

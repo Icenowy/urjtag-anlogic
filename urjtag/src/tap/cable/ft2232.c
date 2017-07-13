@@ -1103,6 +1103,35 @@ ft2232_digilenths1_init (urj_cable_t *cable)
     return URJ_STATUS_OK;
 }
 
+static int
+ft4232_generic_init (urj_cable_t *cable)
+{
+    params_t *params = cable->params;
+    urj_tap_cable_cx_cmd_root_t *cmd_root = &params->cmd_root;
+
+    if (urj_tap_usbconn_open (cable->link.usb) != URJ_STATUS_OK)
+        return URJ_STATUS_FAIL;
+
+    params->bit_trst = -1;
+    params->bit_reset = -1;
+    params->low_byte_value = 0;
+
+    /* Set Data Bits Low Byte: standard TCK = 0, TMS = 1, TDI = 0 */
+    urj_tap_cable_cx_cmd_queue (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_LOW);
+    urj_tap_cable_cx_cmd_push (cmd_root,
+                               params->low_byte_value | BITMASK_TMS);
+    urj_tap_cable_cx_cmd_push (cmd_root,
+                               params->low_byte_dir | BITMASK_TCK
+                               | BITMASK_TDI | BITMASK_TMS);
+    /* there is no high byte in a 4232 */
+
+    ft2232h_set_frequency (cable, FT2232H_MAX_TCK_FREQ);
+    params->last_tdo_valid = 0;
+
+    return URJ_STATUS_OK;
+}
+
 static void
 ft2232_generic_done (urj_cable_t *cable)
 {
@@ -2620,6 +2649,26 @@ const urj_cable_driver_t urj_tap_cable_ft2232_digilenths1_driver = {
     ftdx_usbcable_help
 };
 URJ_DECLARE_FTDX_CABLE(0x0403, 0x6010, "-mpsse", "DigilentHS1", digilenths1)
+
+const urj_cable_driver_t urj_tap_cable_ft2232_ft4232_driver = {
+    "FT4232",
+    N_("Generic FTDI FT4232 Cable"),
+    URJ_CABLE_DEVICE_USB,
+    { .usb = ft2232_connect, },
+    urj_tap_cable_generic_disconnect,
+    ft2232_cable_free,
+    ft4232_generic_init,
+    ft2232_generic_done,
+    ft2232h_set_frequency,
+    ft2232_clock,
+    ft2232_get_tdo,
+    ft2232_transfer,
+    ft2232_set_signal,
+    urj_tap_cable_generic_get_signal,
+    ft2232_flush,
+    ftdx_usbcable_help
+};
+URJ_DECLARE_FTDX_CABLE(0x0403, 0x6011, "-mpsse", "FT4232", ft4232)
 
 /*
  Local Variables:

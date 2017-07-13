@@ -1,0 +1,67 @@
+Adding support for a new cable to urjtag.
+
+OK, you've got a JTAG cable (computer-to-jtag interface) that isn't
+yet supported by urjtag.  This is a guide for would-be urjtag
+contributors on how to add support for new cables.
+
+There are three basic classes of cables, based on how they connect to
+the host computer:  Parallel port, USB, and Other.
+
+
+Among cables with a USB interface, there is a loose distinction
+between cables based on FTDI chips and all of the rest.
+
+
+Adding a new USB/FTDI cable.
+
+If you are sure that your cable is identical to an existing supported
+cable based on an FTDI chip except for having different USB Vendor and
+Product ID codes, you might not have to modify urjtag at all.  You can
+override the VID and PID like this:
+
+   jtag> cable ARM-OCD-USB vid=0xabcd pid=0x1234
+
+You can make this cable more convenient by teaching urjtag to
+recognize that cable's vendor and product ID.  Do this by adding a
+line to src/tap/cable/ft2232.c containing a URJ_DECLARE_FTDX_CABLE()
+macro call.  Follow the examples near the bottom of ft2232.c.
+
+
+
+If you FTDIchip-based cable isn't wired the same as a an existing
+cable, you'll need to add a whole new cable driver.
+
+To add a whole new ft2232 cable driver, you'll need to make
+several modifications.  The rest of this example is based on
+the new cable "FT4232", a generic cable using FTDI's FT4232 chip.
+
+1. add a new *_init() and possibly a new ft2232_*_done()
+function definition to src/tap/cable/ft2232.c
+For the 4232, we'll add ft4232_generic_init().
+
+2. add a new "const urj_cable_driver_t urj_tap_cable_ft2232_*_driver =
+{...};" declaration near the bottom of src/tap/cable/ft2232.c As you
+can see from the existing declarations, each one must have a different
+name.  The contents of this structure is one place that the name of
+the cable appears.  Most of these entries differ in the "init" and and
+sometimes the "done" entries.
+
+For the 4232, we add "urj_tap_cable_ft2232_ft4232_driver"
+
+3. Add a _URJ_CABLE entry to tap/cable_list.h
+The argument to the macro is the unique part of the urj_cable_driver_t
+name added to ft2232.c in step 2 above. For example 
+     _URJ_CABLE(ft2232_ft4232) 
+goes with
+     extern const urj_cable_driver_t urj_tap_cable_ft2232_ft4232_driver
+
+4. Optionally add a URJ_DECLARE_FTDX_CABLE() macro near the bottom of
+ft2232.c, to provide a default VID/PID to look for on the bus to find
+the cable.  This macro defines an entry included in a list of
+ftdichip USB drivers that is used to look up defaults.
+
+5. If you did step 4, finish it by adding an entry to
+src/tap/cable/generic_usbconn_list.h.   Each entry is a _URJ_USB_FTDX()
+macro.  The one argument to the _URJ_USB_FTDX() macro is the last argument to
+the URJ_DECLARE_FTDX_CABLE. 
+

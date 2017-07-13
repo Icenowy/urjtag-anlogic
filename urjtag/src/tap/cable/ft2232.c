@@ -1112,9 +1112,15 @@ ft4232_generic_init (urj_cable_t *cable)
     if (urj_tap_usbconn_open (cable->link.usb) != URJ_STATUS_OK)
         return URJ_STATUS_FAIL;
 
-    params->bit_trst = -1;
-    params->bit_reset = -1;
     params->low_byte_value = 0;
+    if (params->bit_trst > 3) {  // do not allow clobbering mpsse bits
+        params->low_byte_dir |= (1<<params->bit_trst);
+        params->signals = URJ_POD_CS_TRST;
+    }
+    if (params->bit_reset > 3) {
+        params->low_byte_dir |= (1<<params->bit_reset);
+        params->signals = URJ_POD_CS_RESET;
+    }
 
     /* Set Data Bits Low Byte: standard TCK = 0, TMS = 1, TDI = 0 */
     urj_tap_cable_cx_cmd_queue (cmd_root, 0);
@@ -2276,6 +2282,7 @@ static int
 ft2232_connect (urj_cable_t *cable, const urj_param_t *params[])
 {
     params_t *cable_params;
+    int i;
 
     /* perform urj_tap_cable_generic_usbconn_connect */
     if (urj_tap_cable_generic_usbconn_connect (cable, params) != URJ_STATUS_OK)
@@ -2297,6 +2304,22 @@ ft2232_connect (urj_cable_t *cable, const urj_param_t *params[])
 
     cable_params->mpsse_frequency = 0;
     cable_params->last_tdo_valid = 0;
+    cable_params->bit_trst = -1;
+    cable_params->bit_reset = -1;
+
+    if (params != NULL)
+        for (i = 0; params[i] != NULL; i++)
+        {
+            switch (params[i]->key)
+            {
+            case URJ_CABLE_PARAM_KEY_TRST:
+                cable_params->bit_trst = params[i]->value.lu;
+                break;
+            case URJ_CABLE_PARAM_KEY_RESET:
+                cable_params->bit_reset = params[i]->value.lu;
+                break;
+            }
+        }
 
     urj_tap_cable_cx_cmd_init (&cable_params->cmd_root);
 
@@ -2324,6 +2347,17 @@ ftdx_usbcable_help (urj_log_level_t ll, const char *cablename)
 {
     const char *ex_short = "[driver=DRIVER]";
     const char *ex_desc = "DRIVER     usbconn driver, either ftdi-mpsse or ftd2xx-mpsse\n";
+    urj_tap_cable_generic_usbconn_help_ex (ll, cablename, ex_short, ex_desc);
+}
+
+
+void
+ftdx_usbcable_extended_help (urj_log_level_t ll, const char *cablename)
+{
+    const char *ex_short = "[driver=DRIVER] [trst=TRST] [reset=RESET]";
+    const char *ex_desc = "DRIVER     usbconn driver, either ftdi-mpsse or ftd2xx-mpsse\n"
+"TRST       bit number that controls jtag TRST\n"
+"RESET      bit number wired to system RESET\n";
     urj_tap_cable_generic_usbconn_help_ex (ll, cablename, ex_short, ex_desc);
 }
 
@@ -2666,7 +2700,7 @@ const urj_cable_driver_t urj_tap_cable_ft2232_ft4232_driver = {
     ft2232_set_signal,
     urj_tap_cable_generic_get_signal,
     ft2232_flush,
-    ftdx_usbcable_help
+    ftdx_usbcable_extended_help
 };
 URJ_DECLARE_FTDX_CABLE(0x0403, 0x6011, "-mpsse", "FT4232", ft4232)
 

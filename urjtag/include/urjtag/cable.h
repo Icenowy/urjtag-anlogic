@@ -66,6 +66,8 @@ typedef enum URJ_CABLE_PARAM_KEY
     URJ_CABLE_PARAM_KEY_INTERFACE,      /* lu           ftdi */
     URJ_CABLE_PARAM_KEY_FIRMWARE,       /* string       ice100 */
     URJ_CABLE_PARAM_KEY_INDEX,          /* lu           ftdi */
+    URJ_CABLE_PARAM_KEY_TRST,           /* lu           ft4232_generic */
+    URJ_CABLE_PARAM_KEY_RESET,          /* lu           ft4232_generic */
 }
 urj_cable_param_key_t;
 

@@ -683,6 +683,8 @@ static const urj_param_descr_t cable_param[] =
     { URJ_CABLE_PARAM_KEY_INTERFACE,    URJ_PARAM_TYPE_LU,      "interface", },
     { URJ_CABLE_PARAM_KEY_FIRMWARE,     URJ_PARAM_TYPE_STRING,  "firmware", },
     { URJ_CABLE_PARAM_KEY_INDEX,        URJ_PARAM_TYPE_LU,      "index", },
+    { URJ_CABLE_PARAM_KEY_TRST,         URJ_PARAM_TYPE_LU,      "trst", },
+    { URJ_CABLE_PARAM_KEY_RESET,        URJ_PARAM_TYPE_LU,      "reset", },
 };
 
 const urj_param_list_t urj_cable_param_list =

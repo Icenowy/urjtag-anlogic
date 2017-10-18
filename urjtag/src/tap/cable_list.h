@@ -111,5 +111,8 @@ _URJ_CABLE(wiggler2)
 _URJ_CABLE(xpc_ext)
 _URJ_CABLE(xpc_int)
 #endif
+#ifdef ENABLE_CABLE_DIRTYJTAG
+_URJ_CABLE(dirtyjtag)
+#endif
 
 #undef _URJ_CABLE

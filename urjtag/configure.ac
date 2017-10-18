@@ -646,6 +646,7 @@ URJ_DRIVER_SET([bus], [
 URJ_DRIVER_SET([cable], [
 	arcom
 	byteblaster
+	dirtyjtag
 	dlc5
 	ea253
 	ei012
@@ -676,7 +677,8 @@ URJ_DRIVER_SET([cable], [
 			-e s/ice100// \
 			-e s/jlink// \
 			-e s/vsllink// \
-			-e s/xpc//`
+			-e s/xpc// \
+			-e s/dirtyjtag//`
 	])
 	AS_IF([test "x$ac_cv_func_pread" != "xyes"], [
 		drivers=`echo ${drivers} | $SED -e s/gpio//`

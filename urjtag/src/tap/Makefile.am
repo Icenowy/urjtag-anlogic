@@ -187,4 +187,9 @@ libtap_la_SOURCES += \
 	cable/vision_ep9307.c
 endif
 
+if ENABLE_CABLE_DIRTYJTAG
+libtap_la_SOURCES += \
+	cable/dirtyjtag.c
+endif
+
 AM_CFLAGS = $(WARNINGCFLAGS)

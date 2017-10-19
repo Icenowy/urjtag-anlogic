@@ -64,7 +64,7 @@ static void dirtyjtag_clock(urj_cable_t *cable, int tms, int tdi, int n);
 
 /**
  * @brief Get TDO state
- * 
+ *
  * @param cable Cable structure pointer
  */
 static int dirtyjtag_get_tdo(urj_cable_t *cable);
@@ -120,14 +120,14 @@ static int min(int a, int b) {
 
 static void dirtyjtag_set_frequency(urj_cable_t *cable, uint32_t frequency) {
   uint8_t command[3];
-  
+
   /* Convert the frequency from MHz to KHz */
   frequency /= 1E3;
-  
+
   command[0] = CMD_FREQ;
   command[1] = (uint8_t)(frequency >> 8) & 0xFF;
   command[2] = (uint8_t)frequency & 0xFF;
-  
+
   dirtyjtag_send(cable, command, 3);
 }
 
@@ -147,7 +147,7 @@ static int dirtyjtag_init(urj_cable_t *cable) {
   commands[3] = CMD_SETSIG;
   commands[4] = SIG_TDI | SIG_TMS | SIG_TCK;
   commands[5] = 0;
-  
+
   dirtyjtag_send(cable, commands, 6);
 
   return URJ_STATUS_OK;
@@ -196,7 +196,7 @@ static int dirtyjtag_get_tdo(urj_cable_t *cable) {
 static int dirtyjtag_set_signal(urj_cable_t *cable, int mask, int val) {
   uint8_t commands[3];
   uint8_t signal_value = 0, signal_mask = 0;
-  
+
   /* Applying mask */
   mask &= URJ_POD_CS_TMS | URJ_POD_CS_TCK | URJ_POD_CS_TDI | \
     URJ_POD_CS_TRST | URJ_POD_CS_RESET;
@@ -213,7 +213,7 @@ static int dirtyjtag_set_signal(urj_cable_t *cable, int mask, int val) {
   signal_value |= (val & URJ_POD_CS_TMS) ? SIG_TMS : 0;
   signal_value |= (val & URJ_POD_CS_TRST) ? SIG_TRST : 0;
   signal_value |= (val & URJ_POD_CS_RESET) ? SIG_SRST : 0;
-		  
+		
   commands[0] = CMD_SETSIG;
   commands[1] = signal_mask;
   commands[2] = signal_value;
@@ -224,11 +224,11 @@ static int dirtyjtag_set_signal(urj_cable_t *cable, int mask, int val) {
   /* Updating signal status */
   current_signals &= ~mask;
   current_signals |= val;
-  
+
   return val;
 }
 
-static int dirtyjtag_get_signal(urj_cable_t *cable, urj_pod_sigsel_t sig) {  
+static int dirtyjtag_get_signal(urj_cable_t *cable, urj_pod_sigsel_t sig) {
   return sig & current_signals;
 }
 
@@ -249,10 +249,10 @@ static int dirtyjtag_transfer(urj_cable_t *cable, int len,
     memset(packet, 0, 32);
 
     bits_in_packet = (uint8_t)min(240, len);
-    
+
     packet[0] = CMD_XFER;
     packet[1] = bits_in_packet;
-    
+
     /* Pack bits into send packet */
     for (i = 0; i < bits_in_packet; i++) {
       packet[2 + i/8] |= in[sent_bits + i] ? (0x80 >> (i%8)) : 0;
@@ -260,7 +260,7 @@ static int dirtyjtag_transfer(urj_cable_t *cable, int len,
 
     /* Send packet */
     dirtyjtag_send(cable, packet, 32);
-    
+
     /* Receive response */
     ret = dirtyjtag_read(cable, response, 32);
     if (ret) {

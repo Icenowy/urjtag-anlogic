@@ -674,11 +674,11 @@ URJ_DRIVER_SET([cable], [
 	])
 	AS_IF([test "x$HAVELIBUSB" = "xno"], [
 		drivers=`echo ${drivers} | $SED \
+			-e s/dirtyjtag// \
 			-e s/ice100// \
 			-e s/jlink// \
 			-e s/vsllink// \
-			-e s/xpc// \
-			-e s/dirtyjtag//`
+			-e s/xpc//`
 	])
 	AS_IF([test "x$ac_cv_func_pread" != "xyes"], [
 		drivers=`echo ${drivers} | $SED -e s/gpio//`

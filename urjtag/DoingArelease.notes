@@ -1,3 +1,52 @@
 
 Notes on doing a release
 
+
+
+
+> If there are already some notes on doing a release,
+> then please tell the mailinglist(archive) about it.
+
+Hi,
+
+work to do that already kept me from "simply releasing" a few times
+because it takes a bit of time and diligence:
+
+urjtag/
+
+ - update ChangeLog, NEWS and THANKS
+ - update doc/UrJTAG.txt and README
+ - update version in configure.ac
+
+web/
+
+ - update, build and commit web content
+ - find out how and where to put the new content online
+
+It has been almost 10 years since I did the latter. Maybe I can dig
+out how to do at least *that* and help a bit.
+
+etc..
+
+ - (TBD) build binaries for download, especially for windows..
+
+Do NOT make any last-minute functional/build/code changes. Just touch
+documentation for the release.
+
+The only overall change that I find worth considering at this moment
+is maybe to separate all the handcrafted or compiled chip data
+(urjtag/data content) from the actual UrJTAG code. Especially with the
+"new" ability to read BSDL directly, the data/ lost its importance
+somewhat. This question might be discussed especially by the
+maintainers of urjtag packages for distribution?
+
+Nb the "urjtag.com" and "urjtag.de" domain registration only lives
+until  the end of this year, but I'll continue to support
+"urjtag.org". If the project is not moved somewhere else where there
+is no webserver for the www. A record, as it is now configured with
+sourceforge.. well, anyway, that is certainly not life-critical for
+the project.
+
+
+Regards,
+Kolja

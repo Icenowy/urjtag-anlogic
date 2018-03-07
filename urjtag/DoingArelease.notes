@@ -5,6 +5,7 @@ Notes on doing a release
 - Have ChangeLog kept updated during development
 - Also NEWS, THANKS, README and the doc/UrJTAG.txt
 - Update the version in configure.ac
+- Put the same version number in NEWS
 
 
 > If there are already some notes on doing a release,

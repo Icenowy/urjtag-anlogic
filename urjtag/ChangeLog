@@ -1,3 +1,27 @@
+2017-10-18 Jean THOMAS <git0@pub.jeanthomas.me>
+  * Support files for DirtyJTAG
+
+2017-07-12 Steve Tell <tell@telltronics.org>
+  * documentation: adding a new cable driver
+  * new cable driver: FTDI FT4232
+
+2017-06-30 Steve Tell <tell@telltronics.org>
+  * changing TCK frequency of ARM-USB-OCD-H
+
+2017-06-26 Steve Tell <tell@telltronics.org>
+  * python binding additions and fixes
+
+2017-05-18 Jan Willeke <willeke@smartmote.de>
+  * enumerated GPIO_REQUIRED blocks using pin 4
+
+2017-05-07 Benjamin Henrion <zoobab@gmail.com>
+  * src/tap/cable/vsllink.c: versaloon URL updated
+
+2017-03-12 ARE <ake.rehnman@gmail.com>
+  * Inclusion of windows.h was moved out from sysdep.h and added to direct.c and libftd2xx.c
+  * -no-undefined was added to src/Makefile to allow dynamic linking of ftd2xx
+  * Changed configure.ac to make libtool linking work with cygwin/mingw and ftd2xx.
+
 2017-03-01 Tomek CEDRO <CeDeROM@tlen.pl>
   * acinclude.m4: Reverted AS_VAR_APPEND macro that broke autoconf-2.69
     build (introduced 2010-02-03).

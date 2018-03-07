@@ -1,5 +1,10 @@
 $Id$
 
+urtjag-2017.10
+
+    * First release since a long time
+    * Switched from sequential version number to date related version number
+
 urjtag-0.10
 
     * Major internal improvements

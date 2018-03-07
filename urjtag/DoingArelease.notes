@@ -2,6 +2,9 @@
 Notes on doing a release
 
 
+- Have ChangeLog kept updated during development
+- Also NEWS, THANKS, README and the doc/UrJTAG.txt
+- Update the version in configure.ac
 
 
 > If there are already some notes on doing a release,
@@ -11,12 +14,6 @@ Hi,
 
 work to do that already kept me from "simply releasing" a few times
 because it takes a bit of time and diligence:
-
-urjtag/
-
- - update ChangeLog, NEWS and THANKS
- - update doc/UrJTAG.txt and README
- - update version in configure.ac
 
 web/
 

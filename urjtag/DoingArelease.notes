@@ -4,8 +4,24 @@ Notes on doing a release
 
 - Have ChangeLog kept updated during development
 - Also NEWS, THANKS, README and the doc/UrJTAG.txt
+So far the continues effort
+
+The actual release
+- Have or create awareness there is an upcoming release
+- Version number is formatted as  YYYY.MM
+  or as YYYY.MMpreN
 - Update the version in configure.ac
 - Put the same version number in NEWS
+-  ./autogen.sh
+- Probably `git add po/*.po`
+- Another `git commit`
+-  git tag
+-  git push
+-  git push --tags
+-  make dist-xz
+- Some checksumming and signing
+- Upload the  .tar.xz and checksums to SoureForce
+  See https://sourceforge.net/p/forge/documentation/Files/ how
 
 
 > If there are already some notes on doing a release,

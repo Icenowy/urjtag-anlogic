@@ -18,6 +18,7 @@ addons:
 
 script: |
         cd urjtag 
+        sed --in-place -e '/GETTEXT_VERSION/s/0.19/0.18/' configure.ac
         ./autogen.sh
         make
 

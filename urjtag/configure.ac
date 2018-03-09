@@ -102,7 +102,9 @@ AC_CONFIG_HEADERS(include/urjtag/urjtag.h)
 AC_GNU_SOURCE
 
 AM_GNU_GETTEXT(external)
-AM_GNU_GETTEXT_VERSION(0.19)
+dnl AM_GNU_GETTEXT_VERSION(0.19)   Travis-CI had 2018-03-09 version 0.18
+AM_GNU_GETTEXT_VERSION(0.18)
+dnl if it breaks gettext 0.19 installs, the report at mailinglist
 
 LT_INIT
 AC_PROG_CC

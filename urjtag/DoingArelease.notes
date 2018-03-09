@@ -22,6 +22,7 @@ The actual release
 - Some checksumming and signing
 - Upload the  .tar.xz and checksums to SoureForce
   See https://sourceforge.net/p/forge/documentation/Files/ how
+- update, build and commit web content, clue: ../web/Makefile
 
 
 > If there are already some notes on doing a release,
@@ -32,9 +33,6 @@ Hi,
 work to do that already kept me from "simply releasing" a few times
 because it takes a bit of time and diligence:
 
-web/
-
- - update, build and commit web content
 
 etc..
 

@@ -54,6 +54,7 @@ pkginclude_HEADERS = \
 	tap_register.h \
 	tap_state.h \
 	tap.h \
+	stapl.h \
 	svf.h \
 	types.h \
 	usbconn.h

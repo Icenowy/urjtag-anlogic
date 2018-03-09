@@ -10,6 +10,11 @@ sudo: false
 compiler:
   - gcc
 
+addons:
+  apt:
+    packages:
+    - autopoint
+
 script: |
         cd urjtag 
         ./autogen.sh

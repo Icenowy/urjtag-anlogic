@@ -33,5 +33,6 @@ EXTRA_DIST = \
 	README.pld \
 	README.stapl \
 	howto_add_support_for_more_flash.txt \
+	urjtag-python.txt \
 	$(man_MANS)
 

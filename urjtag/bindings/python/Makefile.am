@@ -21,7 +21,7 @@
 # Written by Steve Tell <tell@telltronics.org> 2011
 #
 
-EXTRA_DIST = setup.py chain.c pycompat23.h t_urjtag_chain.py
+EXTRA_DIST = setup.py chain.c pycompat23.h t_urjtag_chain.py t_srst.py py_urjtag.h register.c
 
 all-local: build
 

@@ -4,12 +4,11 @@
 #
 
 language: c
+
+sudo: false
+
 compiler:
   - gcc
-
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y autopoint
 
 script: |
         cd urjtag 

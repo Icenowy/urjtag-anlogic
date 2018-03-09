@@ -6,6 +6,9 @@
 language: c
 compiler:
   - gcc
-script: cd urjtag ; make
+script: |
+        cd urjtag 
+        ./autogen.sh
+        make
 
 # l l

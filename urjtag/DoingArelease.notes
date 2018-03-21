@@ -4,6 +4,7 @@ Notes on doing a release
 
 - Have ChangeLog kept updated during development
 - Also NEWS, THANKS, README and the doc/UrJTAG.txt
+- Plus ../web/htdocs/index.html  section 'Status'
 So far the continues effort
 
 The actual release
@@ -13,7 +14,10 @@ The actual release
 - Update the version in configure.ac
 - Put the same version number in NEWS
 -  ./autogen.sh
-- Probably `git add po/*.po`
+-  git add po/*.po
+-  git commit -m 'po/*.po timestamps due `./autogen.sh`'
+-  git status
+- Various `git add` on where needed
 - Another `git commit`
 -  git tag
 -  git push

@@ -1,3 +1,6 @@
+2018-03-21 Jiri Gaisler <jiri@gaisler.se>
+ * Allow python bindings to be built using VPATH.
+
 2018-03-21 Geert Stappers <stappers@stappers.nl>
   * the actual release of 2017.10
 

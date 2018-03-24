@@ -1,13 +1,17 @@
 # python extension setup script for urjtag
 
 from distutils.core import setup, Extension
+
+libraries = ['urjtag']
+libraries.extend( w.replace('-l', '') for w in "@LIBFTDI_LIBS@ @FTD2XXLIB@ @LIBUSB_LIBS@ @LIBINTL@".split() if w.replace('-l', '') not in libraries )
+
 setup(name="urjtag",
-      version="1.0",
+      version="@VERSION@",
       description="urJtag Python Bindings",
       ext_modules=[
         Extension("urjtag", ["@srcdir@/chain.c", "@srcdir@/register.c"],
                   define_macros=[('HAVE_CONFIG_H', None)],
                   include_dirs=['@top_srcdir@', '@top_srcdir@/include', '@top_builddir@'],
                   library_dirs=['@top_builddir@/src/.libs'],
-                  libraries=['urjtag'])
+                  libraries=libraries)
          ])

@@ -151,6 +151,7 @@ int sa_flags = SA_ONESHOT;
 
 AC_CHECK_HEADERS([linux/ppdev.h], [HAVE_LINUX_PPDEV_H="yes"])
 AC_CHECK_HEADERS([dev/ppbus/ppi.h], [HAVE_DEV_PPBUS_PPI_H="yes"])
+AC_CHECK_HEADERS([libgpio.h], [HAVE_DEV_BSDGPIO_H="yes"])
 AC_CHECK_HEADERS(m4_flatten([
 	wchar.h
 	windows.h
@@ -225,6 +226,7 @@ AS_IF([test "x$with_libusb" != xno], [
 AC_SUBST(LIBUSB_LIBS)
 AM_CONDITIONAL(HAVE_LIBUSB, [test "x$HAVELIBUSB" != "xno"])
 
+AS_IF([test "x$HAVE_DEV_BSDGPIO_H" = xyes], [LIBS="-lgpio $LIBS"])
 
 dnl Use FTDI library?
 
@@ -652,6 +654,7 @@ URJ_DRIVER_SET([cable], [
 	ei012
 	ft2232
 	gpio
+	bsdgpio
 	ice100
 	igloo
 	jlink
@@ -682,6 +685,9 @@ URJ_DRIVER_SET([cable], [
 	])
 	AS_IF([test "x$ac_cv_func_pread" != "xyes"], [
 		drivers=`echo ${drivers} | $SED -e s/gpio//`
+	])
+	AS_IF([test "x$HAVE_DEV_BSDGPIO_H" != "xyes"], [
+		drivers=`echo ${drivers} | $SED -e s/bsdgpio//`
 	])
 ])
 dnl the "fake" jim cable driver is special

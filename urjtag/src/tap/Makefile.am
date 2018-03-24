@@ -82,6 +82,11 @@ libtap_la_SOURCES += \
 	cable/gpio.c
 endif
 
+if ENABLE_CABLE_BSDGPIO
+libtap_la_SOURCES += \
+	cable/bsdgpio.c
+endif
+
 if ENABLE_CABLE_KEITHKOEP
 libtap_la_SOURCES += \
 	cable/keithkoep.c

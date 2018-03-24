@@ -67,6 +67,9 @@ _URJ_CABLE(ft2232_ft4232)
 #ifdef ENABLE_CABLE_GPIO
 _URJ_CABLE(gpio)
 #endif
+#ifdef ENABLE_CABLE_BSDGPIO
+_URJ_CABLE(bsdgpio)
+#endif
 #ifdef ENABLE_CABLE_ICE100
 _URJ_CABLE(ice100B)
 #endif

@@ -40,10 +40,6 @@
 
 #include "generic.h"
 
-#define GPIO_PATH          "/sys/class/bsdgpio/"
-#define GPIO_EXPORT_PATH   GPIO_PATH "export"
-#define GPIO_UNEXPORT_PATH GPIO_PATH "unexport"
-
 /* pin mapping */
 enum {
     GPIO_TDI = 0,
@@ -175,11 +171,11 @@ bsdgpio_connect (urj_cable_t *cable, const urj_param_t *params[])
         }
 
     urj_log (URJ_LOG_LEVEL_NORMAL,
-        _("Initializing GPIO JTAG Chain\n"));
+        _("Initializing BSD GPIO JTAG Chain\n"));
 
     cable->params = cable_params;
     cable->chain = NULL;
-    cable->delay = 1000;
+    cable->delay = 10;
 
     return URJ_STATUS_OK;
 }

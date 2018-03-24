@@ -1,3 +1,6 @@
+2018-03-24 Jiri Gaisler <jiri@gaisler.se>
+ * Code clean-up: remove double const keywords.
+
 2018-03-24 kuenzerj <Jens.Kuenzer@fpga.homeip.net>
  * LIBFTD2XX for x86_64*cygwin is not in i386 directory so use amd64
  * pull in all required libraries in python setup.py

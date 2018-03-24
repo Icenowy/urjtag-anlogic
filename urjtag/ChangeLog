@@ -1,3 +1,7 @@
+2018-03-24 Hiroki Mori <yamori813@yahoo.co.jp>
+ * add freebsd gpio support
+ * fix error message on PPISCTRL
+
 2018-03-21 Jiri Gaisler <jiri@gaisler.se>
  * Allow python bindings to be built using VPATH.
 

@@ -215,7 +215,7 @@ ppi_set_control (urj_parport_t *parport, unsigned char data)
 
     if (ioctl (p->fd, PPISCTRL, &d) == -1)
     {
-        urj_error_IO_set ("ioctl(PPIGCTRL) fails");
+        urj_error_IO_set ("ioctl(PPISCTRL) fails");
         return URJ_STATUS_FAIL;
     }
 

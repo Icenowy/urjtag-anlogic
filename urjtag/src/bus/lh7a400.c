@@ -73,7 +73,7 @@ typedef struct
  *
  */
 static urj_bus_t *
-lh7a400_bus_new (urj_chain_t *chain, const const urj_bus_driver_t *driver,
+lh7a400_bus_new (urj_chain_t *chain, const urj_bus_driver_t *driver,
                  const urj_param_t *cmd_params[])
 {
     urj_bus_t *bus;

@@ -296,6 +296,14 @@ AS_IF([test "x$with_ftd2xx" = xyes -o "x$with_ftd2xx" = xcheck], [
   AS_IF([test "x$with_ftd2xx" != xno], [
     HAVELIBFTD2XX=yes
     case $host in
+    *x86_64*cygwin*|*x86_64*mingw*)
+      CFLAGS="$CFLAGS -I$with_ftd2xx"
+      AS_IF([test -d "$with_ftd2xx/amd64"], [
+        FTD2XXLIB="-L$with_ftd2xx/amd64 -l:ftd2xx.lib"
+      ],[
+        FTD2XXLIB="-L$with_ftd2xx -l:ftd2xx.lib"
+      ])
+      ;;
     *cygwin*|*mingw*)
       CFLAGS="$CFLAGS -I$with_ftd2xx"
       AS_IF([test -d "$with_ftd2xx/i386"], [

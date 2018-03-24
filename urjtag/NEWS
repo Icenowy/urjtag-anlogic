@@ -1,5 +1,10 @@
 $Id$
 
+urtjag-UNRELEASED
+
+    * FreeBSD libgpio support code. FreeBSD 11 or later.
+      jtag> cable bsdgpio tdi=18 tdo=17 tms=19 tck=20
+
 urtjag-2017.10
 
     * First release since a long time

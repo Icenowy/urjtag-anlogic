@@ -1,3 +1,6 @@
+2018-06-18 Jose Vasconcellos <matein4@users.sf.net>
+ * Support ixp425 stepping B1, closes bug#111
+
 2018-03-24 Jiri Gaisler <jiri@gaisler.se>
  * Code clean-up: remove double const keywords.
 

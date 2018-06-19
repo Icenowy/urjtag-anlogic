@@ -245,6 +245,29 @@
 #define BIT_DIGILENT_HS1_nOE         7
 #define BITMASK_DIGILENT_HS1_nOE     (1 << BIT_DIGILENT_HS1_nOE)
 
+/* bit and bitmask definitions for XDS100 from TI and
+ * compatible JTAGv3,4,5 made by Tomas Kosan, University of West Bohemia
+ */
+#define BIT_JTAGv3_nTRST 		4 // ADBUS 4 - O
+#define BIT_JTAGv3_RTCK  		7 // ADBUS 7 - I
+#define BIT_JTAGv3_nSRST 		0 // ACBUS 0 - O
+#define BIT_JTAGv3_nSRST_IN		1 // ACBUS 1 - I
+#define BIT_JTAGv3_OE_PWR_DET 	2 // ACBUS 2 - I
+#define BIT_JTAGv3_PWR_RST 		3 // ACBUS 3 - O
+#define BIT_JTAGv3_CBL_DIS		5 // ACBUS 5 - I
+#define BIT_JTAGv3_LOOPBACK 	6 // ACBUS 6 - O
+#define BIT_JTAGv3_SPARE 		7 // ACBUS 7 - O
+
+#define BITMASK_JTAGv3_nTRST 		(1 << BIT_JTAGv3_nTRST)
+#define BITMASK_JTAGv3_RTCK 		(1 << BIT_JTAGv3_RTCK)
+#define BITMASK_JTAGv3_nSRST 		(1 << BIT_JTAGv3_nSRST)
+#define BITMASK_JTAGv3_nSRST_IN 	(1 << BIT_JTAGv3_nSRST_IN)
+#define BITMASK_JTAGv3_OE_PWR_DET 	(1 << BIT_JTAGv3_OE_PWR_DET)
+#define BITMASK_JTAGv3_PWR_RST 		(1 << BIT_JTAGv3_PWR_RST)
+#define BITMASK_JTAGv3_CBL_DIS 		(1 << BIT_JTAGv3_CBL_DIS)
+#define BITMASK_JTAGv3_LOOPBACK 	(1 << BIT_JTAGv3_LOOPBACK)
+#define BITMASK_JTAGv3_SPARE 		(1 << BIT_JTAGv3_SPARE)
+
 
 typedef struct
 {
@@ -1138,6 +1161,131 @@ ft4232_generic_init (urj_cable_t *cable)
     return URJ_STATUS_OK;
 }
 
+static int
+ft2232_jtagv3_init (urj_cable_t *cable)
+{
+    params_t *params = cable->params;
+    urj_tap_cable_cx_cmd_root_t *cmd_root = &params->cmd_root;
+
+    if (urj_tap_usbconn_open (cable->link.usb) != URJ_STATUS_OK)
+        return URJ_STATUS_FAIL;
+
+    params->low_byte_value = 0;
+    params->low_byte_dir = BITMASK_JTAGv3_nTRST;
+
+    /* Set Data Bits Low Byte
+       TCK = 0, TMS = 1, TDI = 0 */
+    urj_tap_cable_cx_cmd_queue (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_LOW);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->low_byte_value | BITMASK_TMS);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->low_byte_dir | BITMASK_TCK |
+                               BITMASK_TDI | BITMASK_TMS);
+
+    /* Set Data Bits High Byte */
+    params->high_byte_value = 0;
+    params->high_byte_dir = BITMASK_JTAGv3_PWR_RST | BITMASK_JTAGv3_LOOPBACK | BITMASK_JTAGv3_SPARE | BITMASK_JTAGv3_nSRST;
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_HIGH);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_value);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_dir);
+
+    /* Set Data Bits High Byte */
+    // only PWR_RST goes high
+    params->high_byte_value = BITMASK_JTAGv3_PWR_RST;
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_HIGH);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_value);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_dir);
+
+
+    // insulators allows only 1MHz clock ...
+    ft2232_set_frequency (cable, FT2232_MAX_TCK_FREQ/6);
+
+    // TODO: implement resets
+    params->bit_trst = -1;      /* not used */
+    params->bit_reset = -1;     /* not used */
+
+    params->last_tdo_valid = 0;
+    params->signals = 0;
+
+    /* Check if cable is connected to the target and the target is powered on */
+/*    urj_tap_cable_cx_cmd_queue (cmd_root, 1);
+    urj_tap_cable_cx_cmd_push (cmd_root, GET_BITS_HIGH);
+    urj_tap_cable_cx_xfer (&params->cmd_root, &imm_cmd, cable,
+                           URJ_TAP_CABLE_COMPLETELY);
+    if ((urj_tap_cable_cx_xfer_recv (cable) & BITMASK_JTAGv3_OE_PWR_DET) == 1)
+    {
+        urj_error_set (URJ_ERROR_ILLEGAL_STATE,
+                       _("JTAGv3: Power of target not detected. Please power on target device."));
+        return URJ_STATUS_FAIL;
+    }*/
+
+    urj_log (URJ_LOG_LEVEL_NORMAL, "JTAGv3: JTAG Mode Initialization OK!\n");
+
+    return URJ_STATUS_OK;
+}
+
+static int
+ft2232_jtagv5_init (urj_cable_t *cable)
+{
+	volatile uint8_t tmp = 0;
+    params_t *params = cable->params;
+    urj_tap_cable_cx_cmd_root_t *cmd_root = &params->cmd_root;
+
+    if (urj_tap_usbconn_open (cable->link.usb) != URJ_STATUS_OK)
+        return URJ_STATUS_FAIL;
+
+    params->low_byte_value = 0;
+    params->low_byte_dir = BITMASK_JTAGv3_nTRST;
+
+    /* Set Data Bits Low Byte
+       TCK = 0, TMS = 1, TDI = 0 */
+    urj_tap_cable_cx_cmd_queue (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_LOW);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->low_byte_value | BITMASK_TMS);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->low_byte_dir | BITMASK_TCK |
+                               BITMASK_TDI | BITMASK_TMS);
+
+    /* Set Data Bits High Byte */
+    params->high_byte_value = 0;
+    params->high_byte_dir = BITMASK_JTAGv3_PWR_RST | BITMASK_JTAGv3_LOOPBACK | BITMASK_JTAGv3_SPARE | BITMASK_JTAGv3_nSRST;
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_HIGH);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_value);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_dir);
+
+    /* Set Data Bits High Byte */
+    // only PWR_RST goes high
+    params->high_byte_value = BITMASK_JTAGv3_PWR_RST;
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_HIGH);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_value);
+    urj_tap_cable_cx_cmd_push (cmd_root, params->high_byte_dir);
+
+
+    // insulators allows only 1MHz clock ...
+    ft2232h_set_frequency (cable, FT2232H_MAX_TCK_FREQ/30);
+
+    // TODO: implement resets
+    params->bit_trst = -1;      /* not used */
+    params->bit_reset = -1;     /* not used */
+
+    params->last_tdo_valid = 0;
+    params->signals = 0;
+
+    /* Check if cable is connected to the target and the target is powered on */
+    urj_tap_cable_cx_cmd_queue (cmd_root, 1);
+    urj_tap_cable_cx_cmd_push (cmd_root, GET_BITS_HIGH);
+    urj_tap_cable_cx_xfer (&params->cmd_root, &imm_cmd, cable,
+                           URJ_TAP_CABLE_COMPLETELY);
+    tmp = urj_tap_cable_cx_xfer_recv (cable);
+    if ((tmp & BITMASK_JTAGv3_OE_PWR_DET) == 0)
+    {
+        urj_error_set (URJ_ERROR_ILLEGAL_STATE,
+                       _("JTAGv5: Power of target not detected. Please power on target device."));
+        return URJ_STATUS_FAIL;
+    }
+    urj_log (URJ_LOG_LEVEL_NORMAL, "JTAGv5: JTAG Mode Initialization OK!\n");
+
+    return URJ_STATUS_OK;
+}
+
 static void
 ft2232_generic_done (urj_cable_t *cable)
 {
@@ -1602,6 +1750,55 @@ ft2232_milkymist_done (urj_cable_t *cable)
 
     urj_tap_cable_generic_usbconn_done (cable);
 }
+
+static void
+ft2232_jtagv3_done (urj_cable_t *cable)
+{
+    params_t *params = cable->params;
+    urj_tap_cable_cx_cmd_root_t *cmd_root = &params->cmd_root;
+
+    /* Set Data Bits Low Byte
+       set all to input */
+    urj_tap_cable_cx_cmd_queue (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_LOW);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+
+    /* Set Data Bits High Byte
+       set all to input */
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_HIGH);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+    urj_tap_cable_cx_xfer (cmd_root, &imm_cmd, cable,
+                           URJ_TAP_CABLE_COMPLETELY);
+
+    urj_tap_cable_generic_usbconn_done (cable);
+}
+
+static void
+ft2232_jtagv5_done (urj_cable_t *cable)
+{
+    params_t *params = cable->params;
+    urj_tap_cable_cx_cmd_root_t *cmd_root = &params->cmd_root;
+
+    /* Set Data Bits Low Byte
+       set all to input */
+    urj_tap_cable_cx_cmd_queue (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_LOW);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+
+    /* Set Data Bits High Byte
+       set all to input */
+    urj_tap_cable_cx_cmd_push (cmd_root, SET_BITS_HIGH);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+    urj_tap_cable_cx_cmd_push (cmd_root, 0);
+    urj_tap_cable_cx_xfer (cmd_root, &imm_cmd, cable,
+                           URJ_TAP_CABLE_COMPLETELY);
+
+    urj_tap_cable_generic_usbconn_done (cable);
+}
+
 
 static void
 ft2232_clock_schedule (urj_cable_t *cable, int tms, int tdi, int n)
@@ -2703,6 +2900,46 @@ const urj_cable_driver_t urj_tap_cable_ft2232_ft4232_driver = {
     ftdx_usbcable_extended_help
 };
 URJ_DECLARE_FTDX_CABLE(0x0403, 0x6011, "-mpsse", "FT4232", ft4232)
+
+const urj_cable_driver_t urj_tap_cable_ft2232_jtagv3_driver = {
+    "JTAGv3",
+    N_("XDS100 compatible JTAG/serial (FT2232) Cable"),
+    URJ_CABLE_DEVICE_USB,
+    { .usb = ft2232_connect, },
+    urj_tap_cable_generic_disconnect,
+    ft2232_cable_free,
+    ft2232_jtagv3_init,
+    ft2232_jtagv3_done,
+    ft2232_set_frequency,
+    ft2232_clock,
+    ft2232_get_tdo,
+    ft2232_transfer,
+    ft2232_set_signal,
+    urj_tap_cable_generic_get_signal,
+    ft2232_flush,
+    ftdx_usbcable_help
+};
+URJ_DECLARE_FTDX_CABLE(0x0403, 0xa6d0, "-mpsse", "JTAGv3", jtagv3)
+
+const urj_cable_driver_t urj_tap_cable_ft2232_jtagv5_driver = {
+    "JTAGv5",
+    N_("XDS100v2 compatible JTAG/serial (FT2232H) Cable"),
+    URJ_CABLE_DEVICE_USB,
+    { .usb = ft2232_connect, },
+    urj_tap_cable_generic_disconnect,
+    ft2232_cable_free,
+    ft2232_jtagv5_init,
+    ft2232_jtagv5_done,
+    ft2232h_set_frequency,
+    ft2232_clock,
+    ft2232_get_tdo,
+    ft2232_transfer,
+    ft2232_set_signal,
+    urj_tap_cable_generic_get_signal,
+    ft2232_flush,
+    ftdx_usbcable_help
+};
+URJ_DECLARE_FTDX_CABLE(0x0403, 0xa6d0, "-mpsse", "JTAGv5", jtagv5)
 
 /*
  Local Variables:

@@ -203,7 +203,7 @@ urj_tap_cable_generic_usbconn_help_ex (urj_log_level_t ll, const char *cablename
              _("Usage: cable %s %s %s\n"
                "\n" "%s%s"
                "\n"
-               "Default:   vid=%x pid=%x driver=%s\n"
+               "Default:   vid=0x%x pid=0x%x driver=%s\n"
                "\n"),
              cablename,
              URJ_TAP_CABLE_GENERIC_USBCONN_HELP_SHORT, ex_short,

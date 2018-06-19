@@ -1,3 +1,6 @@
+2018-06-19 Marton Miklos <martonmiklos@users.sf.net>
+ * Document the 0x to enforce hexadecimal, closes bug#112
+
 2018-06-18 Jose Vasconcellos <matein4@users.sf.net>
  * Support ixp425 stepping B1, closes bug#111
 

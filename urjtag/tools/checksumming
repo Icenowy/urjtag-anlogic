@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+TBXZ=$1
+#
+if [ -z ${TBXZ} ] ; then
+  echo E: missing filename, it should end in .tar.xz
+  exit 1
+fi
+if [ ! -f ${TBXZ} ] ; then
+  echo E: ${TBXZ} is not a file
+  exit 1
+fi
+case ${TBXZ} in
+  *tar.xz)
+    TB=$( basename ${TBXZ} .tar.xz )
+  ;;
+  *)
+    echo E: ${TBXZ} does NOT end in .tar.xz
+    exit 1
+  ;;
+esac
+md5sum ${TBXZ}     >  ${TB}.sums
+sha1sum ${TBXZ}   >>  ${TB}.sums
+sha256sum ${TBXZ} >>  ${TB}.sums
+# l l

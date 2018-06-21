@@ -24,6 +24,7 @@ The actual release
 -  git push --tags
 -  make dist-xz
 - Some checksumming and signing
+  ( there is tools/checksumming )
 - Upload the  .tar.xz and checksums to SoureForce
   See https://sourceforge.net/p/forge/documentation/Files/ how
 - update, build and commit web content, clue: ../web/Makefile

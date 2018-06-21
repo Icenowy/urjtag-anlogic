@@ -13,7 +13,7 @@ any whitespace other than SPACE (ASCII 0x20) and break lines > 79 chars.
 
 == Copyright ==
 
-Copyright 2007, 2008 Kolja Waschk and the respective authors.
+Copyright 2007, 2018 Kolja Waschk and the respective authors.
 
 Permission is granted to copy, distribute and/or modify this document under the
 terms of the GNU Free Documentation License, Version 1.2 or any later version

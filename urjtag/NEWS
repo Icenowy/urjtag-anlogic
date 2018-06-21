@@ -1,9 +1,17 @@
 $Id$
 
-urtjag-UNRELEASED
+urtjag-2018.06
 
+    * Enhancement#123 JTAGv3 and v5 cables driver
+    * Document the 0x to enforce hexadecimal, closes bug#112
+    * Support ixp425 stepping B1, closes bug#111
+    * Code clean-up: remove double const keywords.
+    * LIBFTD2XX for x86_64*cygwin is not in i386 directory so use amd64
+    * pull in all required libraries in python setup.py
     * FreeBSD libgpio support code. FreeBSD 11 or later.
       jtag> cable bsdgpio tdi=18 tdo=17 tms=19 tck=20
+    * fix error message on PPISCTRL
+    * Allow python bindings to be built using VPATH.
 
 urtjag-2017.10
 

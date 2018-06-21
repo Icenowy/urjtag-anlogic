@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# Copyright (C) 2007, 2008 Kolja Waschk and other
+# Copyright (C) 2007, 2018 Kolja Waschk and other
 #    UrJTAG.org developers, (C) 2002, 2003 ETC s.r.o.
 #
 # This program is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@
 #  and other UrJTAG authors, 2007, 2008, ...
 #
 
-AC_INIT([UrJTAG], [2017.10], [http://urjtag.org], [urjtag])
+AC_INIT([UrJTAG], [2018.06], [http://urjtag.org], [urjtag])
 
 dnl autoconf-2.64 was released in 2008
 AC_PREREQ(2.64)

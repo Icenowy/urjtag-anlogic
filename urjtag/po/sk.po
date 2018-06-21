@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jtag 0.5.1\n"
 "Report-Msgid-Bugs-To: marcel@telka.sk\n"
-"POT-Creation-Date: 2018-03-21 15:41+0100\n"
+"POT-Creation-Date: 2018-06-21 13:43+0200\n"
 "PO-Revision-Date: 2003-10-08 21:25+0200\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -3066,7 +3066,7 @@ msgstr ""
 msgid "Parsing %6d/%d (%3.0d%%)"
 msgstr ""
 
-#: src/svf/svf_flex.l:424 src/tap/cable/ft2232.c:2294
+#: src/svf/svf_flex.l:424 src/tap/cable/ft2232.c:2491
 #: src/tap/cable/generic_parport.c:89 src/tap/cable/generic_usbconn.c:156
 #: src/tap/cable/jim.c:71 src/tap/cable/ts7800.c:170
 #: src/tap/cable/usbblaster.c:79 src/tap/cable/vision_ep9307.c:214
@@ -3126,85 +3126,97 @@ msgstr "JTAG kábel ETC EA253"
 msgid "ETC EI012 JTAG Cable"
 msgstr "JTAG kábel ETC EI012"
 
-#: src/tap/cable/ft2232.c:321
+#: src/tap/cable/ft2232.c:344
 #, c-format
 msgid "Warning: Setting lowest supported frequency for FT2232%s: %d\n"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:899
+#: src/tap/cable/ft2232.c:922
 msgid "Please power on the TARGET board and connect VCC signal"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:1030
+#: src/tap/cable/ft2232.c:1053
 msgid "Vref not detected. Please power on Milkymist One"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2367
+#: src/tap/cable/ft2232.c:1281
+msgid "JTAGv5: Power of target not detected. Please power on target device."
+msgstr ""
+
+#: src/tap/cable/ft2232.c:2564
 msgid "Generic FTDI FT2232 Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2387
+#: src/tap/cable/ft2232.c:2584
 msgid "Olimex ARM-USB-OCD[-TINY] (FT2232) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2408
+#: src/tap/cable/ft2232.c:2605
 msgid "Olimex ARM-USB-TINY-H (FT2232H) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2429
+#: src/tap/cable/ft2232.c:2626
 msgid "Analog Devices Blackfin gnICE (FT2232) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2449
+#: src/tap/cable/ft2232.c:2646
 msgid "Analog Devices Blackfin gnICE+ (FT2232H) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2469
+#: src/tap/cable/ft2232.c:2666
 msgid "Amontec JTAGkey (FT2232) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2489
+#: src/tap/cable/ft2232.c:2686
 msgid "OOCDLink-s (FT2232) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2509
+#: src/tap/cable/ft2232.c:2706
 msgid "Turtelizer 2 Rev. B (FT2232) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2529
+#: src/tap/cable/ft2232.c:2726
 msgid "USB<=>JTAG&RS232 (FT2232) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2549
+#: src/tap/cable/ft2232.c:2746
 msgid "USB to JTAG Interface (FT2232) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2569
+#: src/tap/cable/ft2232.c:2766
 msgid "Xverve DT-USB-ST Signalyzer Tool (FT2232) Cable (EXPERIMENTAL)"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2589
+#: src/tap/cable/ft2232.c:2786
 msgid "TinCanTools Flyswatter (FT2232) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2609
+#: src/tap/cable/ft2232.c:2806
 msgid "KrisTech usbScarabeus2 (FT2232) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2629
+#: src/tap/cable/ft2232.c:2826
 msgid "KrisTech KT-LINK (FT2232H based) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2649
+#: src/tap/cable/ft2232.c:2846
 msgid "Milkymist JTAG/serial (FT2232) Cable"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2669
+#: src/tap/cable/ft2232.c:2866
 msgid "Digilent HS1 Adapter"
 msgstr ""
 
-#: src/tap/cable/ft2232.c:2689
+#: src/tap/cable/ft2232.c:2886
 msgid "Generic FTDI FT4232 Cable"
+msgstr ""
+
+#: src/tap/cable/ft2232.c:2906
+msgid "XDS100 compatible JTAG/serial (FT2232) Cable"
+msgstr ""
+
+#: src/tap/cable/ft2232.c:2926
+msgid "XDS100v2 compatible JTAG/serial (FT2232H) Cable"
 msgstr ""
 
 #: src/tap/cable/generic.c:104
@@ -3252,7 +3264,7 @@ msgid ""
 "Usage: cable %s %s %s\n"
 "\n"
 "%s%s\n"
-"Default:   vid=%x pid=%x driver=%s\n"
+"Default:   vid=0x%x pid=0x%x driver=%s\n"
 "\n"
 msgstr ""
 

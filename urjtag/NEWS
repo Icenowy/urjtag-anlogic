@@ -1,5 +1,9 @@
 $Id$
 
+urjtag-201WIP
+
+ * Added J-Link interface select, closes bug#127
+
 urtjag-2018.06
 
     * Enhancement#123 JTAGv3 and v5 cables driver

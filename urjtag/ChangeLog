@@ -1,3 +1,7 @@
+2018-06-27 Milan Prochac <milan@prochac.sk>
+
+ * Added J-Link interface select, closes bug#127
+
 2018-06-19 Geert Stappers <stappers@stappers.nl>
 
  * Released  2018.06

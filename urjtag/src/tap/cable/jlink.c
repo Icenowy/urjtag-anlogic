@@ -75,6 +75,7 @@ jlink_usbconn_data_t;
 /* Constants for JLink command */
 #define JLINK_DO_TRST_CYCLE                0x02
 #define JLINK_SPEED_COMMAND                0x05
+#define JLINK_INTERFACE_COMMAND            0xc7
 #define JLINK_GET_STATUS_COMMAND           0x07
 #define JLINK_GET_A                        0xc1
 #define JLINK_GET_B                        0xc2
@@ -115,6 +116,8 @@ static void jlink_debug_buffer (unsigned char *buffer, int length);
 
 void urj_tap_cable_jlink_set_frequency (urj_cable_t *cable,
                                         uint32_t frequency);
+void
+urj_tap_cable_jlink_set_interface (urj_cable_t *cable, uint32_t intf);
 
 /***************************************************************************/
 /* J-Link tap functions */
@@ -463,6 +466,8 @@ jlink_init (urj_cable_t *cable)
 
     urj_tap_cable_jlink_set_frequency (cable, 4E6);
 
+    urj_tap_cable_jlink_set_interface (cable, 0);
+
     urj_tap_cable_jlink_reset (params, 0, 0);
 
     return URJ_STATUS_OK;
@@ -511,6 +516,31 @@ urj_tap_cable_jlink_set_frequency (urj_cable_t *cable, uint32_t frequency)
                  "Requested speed %dkHz exceeds maximum of %dkHz, ignored\n",
                  speed, JLINK_MAX_SPEED);
     }
+}
+
+void
+urj_tap_cable_jlink_set_interface (urj_cable_t *cable, uint32_t intf)
+{
+    int result;
+    urj_usbconn_libusb_param_t *params = cable->link.usb->params;
+    jlink_usbconn_data_t *data = params->data;
+
+        data->usb_out_buffer[0] = JLINK_INTERFACE_COMMAND;
+        data->usb_out_buffer[1] = intf;
+
+        result = jlink_usb_write (params, 2);
+
+        if (result != 2)
+        {
+            urj_log (URJ_LOG_LEVEL_ERROR,
+                     "J-Link setting interface failed (%d)\n", result);
+        }
+
+        result = jlink_usb_read (params);
+
+        if (result != 4)
+            urj_log (URJ_LOG_LEVEL_ERROR, "J-Link failed to set JTAG interface\n");
+
 }
 
 /* ---------------------------------------------------------------------- */

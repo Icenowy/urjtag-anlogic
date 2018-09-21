@@ -27,35 +27,35 @@
 
 
 /* High-Nibble: group code, low nibble: register code.  */
-#define T_REG_R                         0x00
-#define T_REG_P                         0x10
-#define T_REG_I                         0x20
-#define T_REG_B                         0x30
-#define T_REG_L                         0x34
-#define T_REG_M                         0x24
-#define T_REG_A                         0x40
+#define T_BFIN_REG_R                         0x00
+#define T_BFIN_REG_P                         0x10
+#define T_BFIN_REG_I                         0x20
+#define T_BFIN_REG_B                         0x30
+#define T_BFIN_REG_L                         0x34
+#define T_BFIN_REG_M                         0x24
+#define T_BFIN_REG_A                         0x40
 
 enum core_regnum
 {
-    REG_R0 = T_REG_R, REG_R1, REG_R2, REG_R3, REG_R4, REG_R5, REG_R6, REG_R7,
-    REG_P0 = T_REG_P, REG_P1, REG_P2, REG_P3, REG_P4, REG_P5, REG_SP, REG_FP,
-    REG_I0 = T_REG_I, REG_I1, REG_I2, REG_I3,
-    REG_M0 = T_REG_M, REG_M1, REG_M2, REG_M3,
-    REG_B0 = T_REG_B, REG_B1, REG_B2, REG_B3,
-    REG_L0 = T_REG_L, REG_L1, REG_L2, REG_L3,
-    REG_A0x = T_REG_A, REG_A0w, REG_A1x, REG_A1w,
-    REG_ASTAT = 0x46,
-    REG_RETS = 0x47,
-    REG_LC0 = 0x60, REG_LT0, REG_LB0, REG_LC1, REG_LT1, REG_LB1,
-    REG_CYCLES, REG_CYCLES2,
-    REG_USP = 0x70, REG_SEQSTAT, REG_SYSCFG,
-    REG_RETI, REG_RETX, REG_RETN, REG_RETE, REG_EMUDAT,
+    BFIN_REG_R0 = T_BFIN_REG_R, BFIN_REG_R1, BFIN_REG_R2, BFIN_REG_R3, BFIN_REG_R4, BFIN_REG_R5, BFIN_REG_R6, BFIN_REG_R7,
+    BFIN_REG_P0 = T_BFIN_REG_P, BFIN_REG_P1, BFIN_REG_P2, BFIN_REG_P3, BFIN_REG_P4, BFIN_REG_P5, BFIN_REG_SP, BFIN_REG_FP,
+    BFIN_REG_I0 = T_BFIN_REG_I, BFIN_REG_I1, BFIN_REG_I2, BFIN_REG_I3,
+    BFIN_REG_M0 = T_BFIN_REG_M, BFIN_REG_M1, BFIN_REG_M2, BFIN_REG_M3,
+    BFIN_REG_B0 = T_BFIN_REG_B, BFIN_REG_B1, BFIN_REG_B2, BFIN_REG_B3,
+    BFIN_REG_L0 = T_BFIN_REG_L, BFIN_REG_L1, BFIN_REG_L2, BFIN_REG_L3,
+    BFIN_REG_A0x = T_BFIN_REG_A, BFIN_REG_A0w, BFIN_REG_A1x, BFIN_REG_A1w,
+    BFIN_REG_ASTAT = 0x46,
+    BFIN_REG_RETS = 0x47,
+    BFIN_REG_LC0 = 0x60, BFIN_REG_LT0, BFIN_REG_LB0, BFIN_REG_LC1, BFIN_REG_LT1, BFIN_REG_LB1,
+    BFIN_REG_CYCLES, BFIN_REG_CYCLES2,
+    BFIN_REG_USP = 0x70, BFIN_REG_SEQSTAT, BFIN_REG_SYSCFG,
+    BFIN_REG_RETI, BFIN_REG_RETX, BFIN_REG_RETN, BFIN_REG_RETE, BFIN_REG_EMUDAT,
 };
 
 #define CLASS_MASK                      0xf0
 #define GROUP(x)                        (((x) & CLASS_MASK) >> 4)
-#define DREG_P(x)                       (((x) & CLASS_MASK) == T_REG_R)
-#define PREG_P(x)                       (((x) & CLASS_MASK) == T_REG_P)
+#define DREG_P(x)                       (((x) & CLASS_MASK) == T_BFIN_REG_R)
+#define PREG_P(x)                       (((x) & CLASS_MASK) == T_BFIN_REG_P)
 
 
 #define DTEST_COMMAND                   0xffe00300

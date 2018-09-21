@@ -820,17 +820,17 @@ part_register_get (urj_chain_t *chain, int n, enum core_regnum reg)
     uint32_t r0 = 0;
 
     if (DREG_P (reg) || PREG_P (reg))
-        part_emuir_set (chain, n, gen_move (REG_EMUDAT, reg), URJ_CHAIN_EXITMODE_IDLE);
+        part_emuir_set (chain, n, gen_move (BFIN_REG_EMUDAT, reg), URJ_CHAIN_EXITMODE_IDLE);
     else
     {
-        r0 = part_register_get (chain, n, REG_R0);
+        r0 = part_register_get (chain, n, BFIN_REG_R0);
 
         part_scan_select (chain, n, DBGCTL_SCAN);
         part_dbgctl_bit_set_emuirlpsz_2 (chain, n);
         urj_tap_chain_shift_data_registers_mode (chain, 0, 1, URJ_CHAIN_EXITMODE_UPDATE);
 
-        part_emuir_set_2 (chain, n, gen_move (REG_R0, reg),
-                          gen_move (REG_EMUDAT, REG_R0), URJ_CHAIN_EXITMODE_IDLE);
+        part_emuir_set_2 (chain, n, gen_move (BFIN_REG_R0, reg),
+                          gen_move (BFIN_REG_EMUDAT, BFIN_REG_R0), URJ_CHAIN_EXITMODE_IDLE);
 
         part_scan_select (chain, n, DBGCTL_SCAN);
         part_dbgctl_bit_clear_emuirlpsz_2 (chain, n);
@@ -843,7 +843,7 @@ part_register_get (urj_chain_t *chain, int n, enum core_regnum reg)
     r = part->active_instruction->data_register->out;
 
     if (!DREG_P (reg) && !PREG_P (reg))
-        part_register_set (chain, n, REG_R0, r0);
+        part_register_set (chain, n, BFIN_REG_R0, r0);
 
     return emudat_value (r);
 }
@@ -856,7 +856,7 @@ part_register_set (urj_chain_t *chain, int n, enum core_regnum reg, uint32_t val
     uint32_t r0 = 0;
 
     if (!DREG_P (reg) && !PREG_P (reg))
-        r0 = part_register_get (chain, n, REG_R0);
+        r0 = part_register_get (chain, n, BFIN_REG_R0);
 
     part_scan_select (chain, n, EMUDAT_SCAN);
 
@@ -868,46 +868,46 @@ part_register_set (urj_chain_t *chain, int n, enum core_regnum reg, uint32_t val
     urj_tap_chain_shift_data_registers_mode (chain, 0, 1, URJ_CHAIN_EXITMODE_UPDATE);
 
     if (DREG_P (reg) || PREG_P (reg))
-        part_emuir_set (chain, n, gen_move (reg, REG_EMUDAT), URJ_CHAIN_EXITMODE_IDLE);
+        part_emuir_set (chain, n, gen_move (reg, BFIN_REG_EMUDAT), URJ_CHAIN_EXITMODE_IDLE);
     else
     {
         part_scan_select (chain, n, DBGCTL_SCAN);
         part_dbgctl_bit_set_emuirlpsz_2 (chain, n);
         urj_tap_chain_shift_data_registers_mode (chain, 0, 1, URJ_CHAIN_EXITMODE_UPDATE);
 
-        part_emuir_set_2 (chain, n, gen_move (REG_R0, REG_EMUDAT),
-                          gen_move (reg, REG_R0), URJ_CHAIN_EXITMODE_IDLE);
+        part_emuir_set_2 (chain, n, gen_move (BFIN_REG_R0, BFIN_REG_EMUDAT),
+                          gen_move (reg, BFIN_REG_R0), URJ_CHAIN_EXITMODE_IDLE);
 
         part_scan_select (chain, n, DBGCTL_SCAN);
         part_dbgctl_bit_clear_emuirlpsz_2 (chain, n);
         urj_tap_chain_shift_data_registers_mode (chain, 0, 1, URJ_CHAIN_EXITMODE_UPDATE);
 
-        part_register_set (chain, n, REG_R0, r0);
+        part_register_set (chain, n, BFIN_REG_R0, r0);
     }
 }
 
 uint32_t
 part_get_r0 (urj_chain_t *chain, int n)
 {
-    return part_register_get (chain, n, REG_R0);
+    return part_register_get (chain, n, BFIN_REG_R0);
 }
 
 uint32_t
 part_get_p0 (urj_chain_t *chain, int n)
 {
-    return part_register_get (chain, n, REG_P0);
+    return part_register_get (chain, n, BFIN_REG_P0);
 }
 
 void
 part_set_r0 (urj_chain_t *chain, int n, uint32_t value)
 {
-    part_register_set (chain, n, REG_R0, value);
+    part_register_set (chain, n, BFIN_REG_R0, value);
 }
 
 void
 part_set_p0 (urj_chain_t *chain, int n, uint32_t value)
 {
-    part_register_set (chain, n, REG_P0, value);
+    part_register_set (chain, n, BFIN_REG_P0, value);
 }
 
 void
@@ -1001,7 +1001,7 @@ chain_system_reset (urj_chain_t *chain)
     /* Write 0x7 to SWRST to start system reset. */
     part_set_p0 (chain, chain->main_part, SWRST);
     part_set_r0 (chain, chain->main_part, 0x7);
-    part_emuir_set (chain, chain->main_part, gen_store16_offset (REG_P0, 0, REG_R0), URJ_CHAIN_EXITMODE_IDLE);
+    part_emuir_set (chain, chain->main_part, gen_store16_offset (BFIN_REG_P0, 0, BFIN_REG_R0), URJ_CHAIN_EXITMODE_IDLE);
 
     /*
      * Delay at least 10 SCLKs instead of doing an SSYNC insn.
@@ -1014,7 +1014,7 @@ chain_system_reset (urj_chain_t *chain)
 
     /* Write 0x0 to SWRST to stop system reset. */
     part_set_r0 (chain, chain->main_part, 0);
-    part_emuir_set (chain, chain->main_part, gen_store16_offset (REG_P0, 0, REG_R0), URJ_CHAIN_EXITMODE_IDLE);
+    part_emuir_set (chain, chain->main_part, gen_store16_offset (BFIN_REG_P0, 0, BFIN_REG_R0), URJ_CHAIN_EXITMODE_IDLE);
 
     /* Delay at least 1 SCLK; see comment above for more info. */
     usleep (100);
@@ -1064,14 +1064,14 @@ part_emupc_reset (urj_chain_t *chain, int n, uint32_t new_pc)
     urj_part_t *part = chain->parts->parts[n];
     uint32_t p0;
 
-    p0 = part_register_get (chain, n, REG_P0);
+    p0 = part_register_get (chain, n, BFIN_REG_P0);
 
     BFIN_PART_EMUPC (part) = new_pc;
 
-    part_register_set (chain, n, REG_P0, new_pc);
-    part_emuir_set (chain, n, gen_jump_reg (REG_P0), URJ_CHAIN_EXITMODE_IDLE);
+    part_register_set (chain, n, BFIN_REG_P0, new_pc);
+    part_emuir_set (chain, n, gen_jump_reg (BFIN_REG_P0), URJ_CHAIN_EXITMODE_IDLE);
 
-    part_register_set (chain, n, REG_P0, p0);
+    part_register_set (chain, n, BFIN_REG_P0, p0);
 }
 
 uint32_t
@@ -1089,22 +1089,22 @@ part_mmr_read_clobber_r0 (urj_chain_t *chain, int n, int32_t offset, int size)
 
         if (size == 2)
             part_emuir_set_2 (chain, n,
-                              gen_load16z (REG_R0, REG_P0),
-                              gen_move (REG_EMUDAT, REG_R0),
+                              gen_load16z (BFIN_REG_R0, BFIN_REG_P0),
+                              gen_move (BFIN_REG_EMUDAT, BFIN_REG_R0),
                               URJ_CHAIN_EXITMODE_UPDATE);
         else
             part_emuir_set_2 (chain, n,
-                              gen_load32 (REG_R0, REG_P0),
-                              gen_move (REG_EMUDAT, REG_R0),
+                              gen_load32 (BFIN_REG_R0, BFIN_REG_P0),
+                              gen_move (BFIN_REG_EMUDAT, BFIN_REG_R0),
                               URJ_CHAIN_EXITMODE_UPDATE);
     }
     else
     {
         if (size == 2)
-            part_emuir_set (chain, n, gen_load16z_offset (REG_R0, REG_P0, offset), URJ_CHAIN_EXITMODE_IDLE);
+            part_emuir_set (chain, n, gen_load16z_offset (BFIN_REG_R0, BFIN_REG_P0, offset), URJ_CHAIN_EXITMODE_IDLE);
         else
-            part_emuir_set (chain, n, gen_load32_offset (REG_R0, REG_P0, offset), URJ_CHAIN_EXITMODE_IDLE);
-        part_emuir_set (chain, n, gen_move (REG_EMUDAT, REG_R0), URJ_CHAIN_EXITMODE_UPDATE);
+            part_emuir_set (chain, n, gen_load32_offset (BFIN_REG_R0, BFIN_REG_P0, offset), URJ_CHAIN_EXITMODE_IDLE);
+        part_emuir_set (chain, n, gen_move (BFIN_REG_EMUDAT, BFIN_REG_R0), URJ_CHAIN_EXITMODE_UPDATE);
     }
     value = part_emudat_get (chain, n, URJ_CHAIN_EXITMODE_IDLE);
 
@@ -1124,14 +1124,14 @@ part_mmr_read (urj_chain_t *chain, int n, uint32_t addr, int size)
     uint32_t p0, r0;
     uint32_t value;
 
-    p0 = part_register_get (chain, n, REG_P0);
-    r0 = part_register_get (chain, n, REG_R0);
+    p0 = part_register_get (chain, n, BFIN_REG_P0);
+    r0 = part_register_get (chain, n, BFIN_REG_R0);
 
-    part_register_set (chain, n, REG_P0, addr);
+    part_register_set (chain, n, BFIN_REG_P0, addr);
     value = part_mmr_read_clobber_r0 (chain, n, 0, size);
 
-    part_register_set (chain, n, REG_P0, p0);
-    part_register_set (chain, n, REG_R0, r0);
+    part_register_set (chain, n, BFIN_REG_P0, p0);
+    part_register_set (chain, n, BFIN_REG_R0, r0);
 
     return value;
 }
@@ -1151,22 +1151,22 @@ part_mmr_write_clobber_r0 (urj_chain_t *chain, int n, int32_t offset, uint32_t d
 
         if (size == 2)
             part_emuir_set_2 (chain, n,
-                              gen_move (REG_R0, REG_EMUDAT),
-                              gen_store16 (REG_P0, REG_R0),
+                              gen_move (BFIN_REG_R0, BFIN_REG_EMUDAT),
+                              gen_store16 (BFIN_REG_P0, BFIN_REG_R0),
                               URJ_CHAIN_EXITMODE_IDLE);
         else
             part_emuir_set_2 (chain, n,
-                              gen_move (REG_R0, REG_EMUDAT),
-                              gen_store32 (REG_P0, REG_R0),
+                              gen_move (BFIN_REG_R0, BFIN_REG_EMUDAT),
+                              gen_store32 (BFIN_REG_P0, BFIN_REG_R0),
                               URJ_CHAIN_EXITMODE_IDLE);
     }
     else
     {
-        part_emuir_set (chain, n, gen_move (REG_R0, REG_EMUDAT), URJ_CHAIN_EXITMODE_IDLE);
+        part_emuir_set (chain, n, gen_move (BFIN_REG_R0, BFIN_REG_EMUDAT), URJ_CHAIN_EXITMODE_IDLE);
         if (size == 2)
-            part_emuir_set (chain, n, gen_store16_offset (REG_P0, offset, REG_R0), URJ_CHAIN_EXITMODE_IDLE);
+            part_emuir_set (chain, n, gen_store16_offset (BFIN_REG_P0, offset, BFIN_REG_R0), URJ_CHAIN_EXITMODE_IDLE);
         else
-            part_emuir_set (chain, n, gen_store32_offset (REG_P0, offset, REG_R0), URJ_CHAIN_EXITMODE_IDLE);
+            part_emuir_set (chain, n, gen_store32_offset (BFIN_REG_P0, offset, BFIN_REG_R0), URJ_CHAIN_EXITMODE_IDLE);
     }
 
     if (offset == 0)
@@ -1182,14 +1182,14 @@ part_mmr_write (urj_chain_t *chain, int n, uint32_t addr, uint32_t data, int siz
 {
     uint32_t p0, r0;
 
-    p0 = part_register_get (chain, n, REG_P0);
-    r0 = part_register_get (chain, n, REG_R0);
+    p0 = part_register_get (chain, n, BFIN_REG_P0);
+    r0 = part_register_get (chain, n, BFIN_REG_R0);
 
-    part_register_set (chain, n, REG_P0, addr);
+    part_register_set (chain, n, BFIN_REG_P0, addr);
     part_mmr_write_clobber_r0 (chain, n, 0, data, size);
 
-    part_register_set (chain, n, REG_P0, p0);
-    part_register_set (chain, n, REG_R0, r0);
+    part_register_set (chain, n, BFIN_REG_P0, p0);
+    part_register_set (chain, n, BFIN_REG_R0, r0);
 }
 
 struct bfin_part_data bfin_part_data_initializer =

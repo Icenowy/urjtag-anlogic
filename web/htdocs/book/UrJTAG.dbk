@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
 
 <book lang="en">
 <bookinfo>
     <title>Universal JTAG library, server and tools</title>
-    <date>2010-02-16</date>
+    <date>$Id$</date>
     <author>
         <firstname>Kolja</firstname>
         <othername>Waschk</othername>
         <surname>(Ed.)</surname>
     </author>
     <authorinitials>KW(</authorinitials>
-
-<revhistory><revision><revnumber>1778</revnumber><date>2010-02-16</date><authorinitials>KW(</authorinitials></revision></revhistory>
-
+<revhistory><revision><date>$Id$</date><authorinitials>KW(</authorinitials></revision></revhistory>
 </bookinfo>
 <chapter id="_copyright">
 <title>Copyright</title>
-<simpara>Copyright 2007, 2008 Kolja Waschk and the respective authors.</simpara>
-
+<simpara>Copyright 2007, 2018 Kolja Waschk and the respective authors.</simpara>
 <simpara>Permission is granted to copy, distribute and/or modify this document under the
 terms of the GNU Free Documentation License, Version 1.2 or any later version
 published by the Free Software Foundation. A copy of the license is included in
 the section entitled "GNU Free Documentation License".</simpara>
-
 </chapter>
 <chapter id="_general">
 <title>General</title>
@@ -32,7 +30,6 @@ the section entitled "GNU Free Documentation License".</simpara>
 <simpara>JTAG basics can be found all over the Internet. This section should go into
 some more details about working with JTAG. What hardware do you need, what is
 the usage of JTAG, where do I get files. What file formats are available&#8230;</simpara>
-
 <section id="_introduction">
 <title>Introduction</title>
 <simpara>JTAG (IEEE 1149.1) is a serial interface for testing devices with
@@ -40,7 +37,6 @@ integrated circuits. The problem that the JTAG interface was designed to solve
 is checking if connections between ICs are OK. Therefore you can set and check
 in- and outputs of ICs. In order to save pins and logic a very simple serial
 design was invented.</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -68,9 +64,8 @@ machine inside each chip can be controlled, e.g. to reset the device.  This
 control machine also allows to have two internal shift registers in each device
 (although we only have on in- and one output-pin). The registers are called
 instruction register (IR) and data register (DR).  The current UrJTAG tool
-allows you to set the IR and set and get the DR. It doesn't allow you to
+allows you to set the IR and set and get the DR. It doesn&#8217;t allow you to
 directly control the state machine (yet).</simpara>
-
 </section>
 <section id="_interfaces">
 <title>Interfaces</title>
@@ -78,7 +73,6 @@ directly control the state machine (yet).</simpara>
 (also called DLC5). If your device works with a 5V or 3.3V supply voltage then
 this device can even be built just with passive parts.  (picture missing here)
 UrJTAG also supports a number of other interface adapters.</simpara>
-
 </section>
 <section id="_additions">
 <title>Additions</title>
@@ -87,7 +81,6 @@ flash files and debugging processors.  UrJTAG supports programming a couple of
 different flash devices. It also supports programming of non-flash devices via
 SVF files.  UrJTAG does not support debugging yet. Other open source solutions
 such as OpenOCD allow you to debug ARM processors with gdb.</simpara>
-
 </section>
 <section id="_bsdl_and_urjtag_data_files">
 <title>BSDL and UrJTAG data files</title>
@@ -95,18 +88,15 @@ such as OpenOCD allow you to debug ARM processors with gdb.</simpara>
 syntax with the needed information (like pin-names, register lengths and
 commands) that is usually created by the supplier. e.g. Xilinx BSDL files are
 all included in their free web-pack (using file extension ".bsd").</simpara>
-
 <simpara>UrJTAG uses a different file format internally. So in order to add a new device
 to UrJTAG you need to convert those files and produce a directory structure.
 Currently there are at least three tools available to do that; included with
 UrJTAG is "bsdl2jtag". Please ask on the mailing list in case of problems with
 that. Please also send proven working files back to this project.</simpara>
-
 <simpara>Starting with post-0.7 releases, UrJTAG contains a BSDL subsystem that
 retrieves the descriptions for chips in the chain from BSDL files on the
 fly. "bsdl2jtag" is in fact a wrapper that uses the BSDL subsystem to
 convert the BSDL file.</simpara>
-
 </section>
 <section id="_svf_files">
 <title>SVF files</title>
@@ -114,19 +104,15 @@ convert the BSDL file.</simpara>
 bus. For example you can shift the IR or DR and even check for the results.
 The Xilinx Impact and Altera QuartusII tools allow you to write this file to
 program devices.</simpara>
-
 <simpara>The player has been developed according to the "Serial Vector Format
 Specification", Revision E, 8 March 1999 issued by ASSET InterTech, Inc. The
 full specification can be found at
 <ulink url="http://www.asset-intertech.com/support/svf.pdf">http://www.asset-intertech.com/support/svf.pdf</ulink>.</simpara>
-
 <simpara>UrJTAG features an "SVF player" that can read SVF files and perform the
 described actions on the bus.</simpara>
-
 <simpara>SVF parser and lexer are also copyright 2002, CDS at <ulink url="http://www-csd.ijs.si/">http://www-csd.ijs.si/</ulink>.
 They have been reused from the "Experimental Boundary Scan" project at
 <ulink url="http://ebsp.sourceforge.net/">http://ebsp.sourceforge.net/</ulink>.</simpara>
-
 </section>
 <section id="_jam_stapl_files">
 <title>JAM/STAPL files</title>
@@ -134,7 +120,6 @@ They have been reused from the "Experimental Boundary Scan" project at
 standardized as JEDEC "JESD-71A". Compared to SVF, it looks more like an
 actual programming language and features looping, conditional execution, and
 more. STAPL is not yet supported by UrJTAG.</simpara>
-
 </section>
 </section>
 <section id="_urjtag">
@@ -143,32 +128,26 @@ more. STAPL is not yet supported by UrJTAG.</simpara>
 <title>Introduction</title>
 <simpara>UrJTAG is a software package which enables working with JTAG-aware (IEEE
 1149.1) hardware devices (parts) and boards through a JTAG adapter.</simpara>
-
 <simpara>This package has an open and modular architecture with the ability to write
 miscellaneous extensions (like board testers, flash memory programmers, and so
 on).</simpara>
-
 <simpara>UrJTAG is free software, covered by the GNU General Public License,
 and you are welcome to change it and/or distribute copies of it under certain
 conditions. There is absolutely no warranty for UrJTAG.  Please read
 the COPYING file for more info.</simpara>
-
 <warning><simpara>This software may damage your hardware!</simpara></warning>
 <simpara>Feedback and contributions are welcome.</simpara>
-
 </section>
 <section id="_about_this_document">
 <title>About this document</title>
-<simpara>This documentation is far from being complete. You're encouraged to amend and
+<simpara>This documentation is far from being complete. You&#8217;re encouraged to amend and
 supplement it and submit your changes in the Bugs or Enhancements tracker
 at the UrJTAG website.</simpara>
-
 </section>
 <section id="_urjtag_website">
 <title>UrJTAG Website</title>
 <simpara>The most current version of this documentation and UrJTAG source code
 is always available from the project homepage at <ulink url="http://www.urjtag.org">http://www.urjtag.org</ulink>.</simpara>
-
 </section>
 <section id="_the_name_urjtag">
 <title>The name "UrJTAG"</title>
@@ -177,7 +156,6 @@ letters to "JTAG". The prefix "Ur" in German means "ancestral", an "Ur-Vater"
 is a forefather. UrJTAG shall become the forefather, the prototype for many
 other JTAG tools. By mere chance the "Ur" is also another name for an aurochs,
 an animal similar to the GNU&#8230;</simpara>
-
 </section>
 <section id="_authors_contributors_8230_thanks">
 <title>Authors, contributors, &#8230; thanks</title>
@@ -186,7 +164,6 @@ distribution. Special thanks go to Marcel Telka, who actually "invented" the
 JTAG tools and wrote most of this basis of UrJTAG, and Arnim Laeuger for his
 continuous support and development of SVF and BSDL subsystem and FT2232
 drivers.</simpara>
-
 </section>
 <section id="_urjtag_and_openwince_jtag_tools">
 <title>UrJTAG and openwince JTAG Tools</title>
@@ -194,10 +171,9 @@ drivers.</simpara>
 the openwince project. Still a large portion of the source code is his work.
 However, the last release of the JTAG tools was version 0.5.1 in 2003. After a
 few years the development completely stalled. Every few months or so on the
-project's mailing list someone asked about continuing, but a critical mass
-wasn't reached before late 2007. A fork of the JTAG tools was created under the
+project&#8217;s mailing list someone asked about continuing, but a critical mass
+wasn&#8217;t reached before late 2007. A fork of the JTAG tools was created under the
 wings of the UrJTAG project at Sourceforge.</simpara>
-
 </section>
 </section>
 <section id="_system_requirements">
@@ -207,12 +183,10 @@ wings of the UrJTAG project at Sourceforge.</simpara>
 <simpara>JTAG Tools should run on all Unix like operating systems including MS Windows
 with Cygwin installed. A precompiled version that runs on MS Windows without
 Cygwin is available as a Windows installer executable.</simpara>
-
 </section>
 <section id="_required_software_for_running_urjtag">
 <title>Required software for running UrJTAG</title>
 <simpara>Required only for MS Windows, unless you use the precompiled version:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -227,21 +201,16 @@ ioperm package (a part of the standard Cygwin net installation)
 </itemizedlist>
 <simpara>It may be necessary to run the command "ioperm -i" to install the IOPERM.SYS
 driver in the system.</simpara>
-
 <simpara>If UrJTAG was compiled to use the readline library, it has to be present on
-the system as well. It's probably a standard part of your distribution.</simpara>
-
+the system as well. It&#8217;s probably a standard part of your distribution.</simpara>
 <simpara>More software is needed if you want to compile UrJTAG (which you probably want
 because currently no pre-compiled binaries are available&#8230;).
 See "Installation" below.</simpara>
-
 </section>
 <section id="_supported_jtag_adapters_cables">
 <title>Supported JTAG adapters/cables</title>
 <simpara>See <emphasis>help cable</emphasis> command for up-to-date info.</simpara>
-
 <simpara>Parallel-port cables:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -275,7 +244,7 @@ Ka-Ro TRITON (PXA255/250) JTAG Cable
 </listitem>
 <listitem>
 <simpara>
-Keith &amp;amp; Koep JTAG Cable
+Keith &amp; Koep JTAG Cable
 </simpara>
 </listitem>
 <listitem>
@@ -295,7 +264,6 @@ Macraigor Wiggler JTAG Cable
 </listitem>
 </itemizedlist>
 <simpara>FT2232-based USB cables:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -369,7 +337,6 @@ Xverve Signalyzer Tool (experimental)
 </listitem>
 </itemizedlist>
 <simpara>Other USB cables:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -383,12 +350,11 @@ Segger/IAR J-Link / Atmel SAM-ICE (experimental, work in progress)
 </listitem>
 <listitem>
 <simpara>
-Xilinx Platform USB Cable / DLC9 (slow, experimental, work in progress - don't use)
+Xilinx Platform USB Cable / DLC9 (slow, experimental, work in progress - don&#8217;t use)
 </simpara>
 </listitem>
 </itemizedlist>
 <simpara>Other cables:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -401,7 +367,6 @@ Technologic Systems TS-7800 SoC GPIO builtin JTAG interface
 <title>JTAG-aware parts (chips)</title>
 <simpara>The data/ directory of the UrJTAG installation has some more, but at
 least the following are supported:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -657,6 +622,11 @@ AMD Am29LV64xD (Am29LV640D, Am29LV641D, Am29LV642D)
 AMD Am29xx040B (Am29F040B, Am29LV040B)
 </simpara>
 </listitem>
+<listitem>
+<simpara>
+Macronix MX29LV160, MX29LV320, MX29LV640
+</simpara>
+</listitem>
 </itemizedlist>
 <simpara>UrJTAG uses the multi-byte write mode if supported by the particular flash
 device. The flash code will automatically switch to this algorithm if the
@@ -665,11 +635,9 @@ written in a single step (refer to CFI details shown by <emphasis>detectflash</e
 multiple locations are written in a burst-like manner with only one polling
 sequence afterwards, the overall flashing performance increases by factor of
 5-17.</simpara>
-
 <simpara>In case you encounter any issues with the multi-byte write mode, run configure
-with the <emphasis>&#8212;disable-flash-multi-byte</emphasis> option and re-compile to disable this
+with the <emphasis>--disable-flash-multi-byte</emphasis> option and re-compile to disable this
 algorithm.</simpara>
-
 </section>
 </section>
 <section id="_compilation_and_installation">
@@ -682,7 +650,6 @@ C:\Program Files\UrJTAG. It comes ready with support for JTAG cables that are
 directly attached to a parallel port. However, if you work with Windows Vista
 and want access to the parallel port, a driver for it has to be installed
 separately. It is available from</simpara>
-
 <literallayout class="monospaced">http://www.highrez.co.uk/Downloads/InpOut32/</literallayout>
 <simpara>If you want to use UrJTAG with a JTAG cable attached to the USB port,
 actual cable drivers have to be installed beside UrJTAG itself. Usually,
@@ -691,18 +658,16 @@ Altera USB-Blaster come with their Quartus software. For FTDI-based
 cables, you need an INF file describing the cable and FTDIBUS.SYS and
 FTD2XX.DLL from FTDI (CDM drivers). If your cable shows up in the device
 manager without any warning sign, UrJTAG probably is able to talk to it.</simpara>
-
 <simpara>Finally, UrJTAG additionally needs libusb-win32 to talk to some USB cables that
 are not based on FTDI chips (Xilinx Platform Cable USB, Segger J-Link). The
-so-called libusb-win32 filter driver is available from the project's download
+so-called libusb-win32 filter driver is available from the project&#8217;s download
 page at Sourceforge:</simpara>
-
 <literallayout class="monospaced">http://libusb-win32.sourceforge.net/#downloads</literallayout>
 </section>
 <section id="_required_software_for_compiling_urjtag">
 <title>Required software for compiling UrJTAG</title>
-<simpara>To run autogen.sh, you need autoconf and automake, bison, and a recent flex.</simpara>
-
+<simpara>To run autogen.sh, you need autoconf and automake, bison, pkg-config
+and a recent flex.</simpara>
 <simpara>The distributed source tarball contains source pregenerated with a current
 flex version; flex therefore is only needed if you want to compile code
 checked out from our Subversion repository.  Flex 2.5.4a as it comes with
@@ -710,10 +675,8 @@ most but the very latest Cygwin release cannot build the scanners for BSDL and
 SVF. Building these files requires Flex 2.5.33 or newer. The configure script
 will compare the available Flex version against these preconditions and enables
 or disables the related features.</simpara>
-
 <simpara>Furthermore, libtool should be available, and "devel" versions of the following
 packages:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -736,16 +699,13 @@ ioperm (needed only for Cygwin)
 <title>Required libraries for USB support</title>
 <simpara>For USB adapter support (including support for parallel port adapters attached
 to USB-to-parallel converters), one or more additional libraries are required.</simpara>
-
 <simpara>Many USB JTAG adapters and USB-to-parallel converters are based on chips
-made by FTDI. To support these, either intra.net's "libftdi" or FTDI's
+made by FTDI. To support these, either intra.net&#8217;s "libftdi" or FTDI&#8217;s
 "FTD2XX" library can be used.</simpara>
-
 <simpara>On many modern Linux distributions, libftdi is available as a precompiled
-package and can be installed using the distribution's package management system
-(e.g. "apt-get libftdi-dev" for Debian and Ubuntu). If it isn't available or
-you don't run Linux, you can get it from</simpara>
-
+package and can be installed using the distribution&#8217;s package management system
+(e.g. "apt-get libftdi-dev" for Debian and Ubuntu). If it isn&#8217;t available or
+you don&#8217;t run Linux, you can get it from</simpara>
 <itemizedlist>
 <listitem>
 <simpara>
@@ -754,12 +714,10 @@ you don't run Linux, you can get it from</simpara>
 </listitem>
 </itemizedlist>
 <simpara>Alternatively, you can use the FTD2XX library from the chip manufacturer FTDI.
-It is available for Linux and Windows. There's more information about linking
+It is available for Linux and Windows. There&#8217;s more information about linking
 to that library in a Cygwin environment below.</simpara>
-
 <simpara>All other USB JTAG adapters can be supported only if libusb is installed.
 There is a libusb-win32 variant that can be used in a Cygwin environment:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -774,12 +732,10 @@ There is a libusb-win32 variant that can be used in a Cygwin environment:</simpa
 </itemizedlist>
 <simpara>For specific notes regarding the use of these libraries in a Cygwin
 environment, see below.</simpara>
-
 </section>
 <section id="_installing_from_source_tar_gz">
 <title>Installing from source tar.gz</title>
 <simpara>The installation follows the standard configure, make, make install scheme:</simpara>
-
 <literallayout class="monospaced">tar xzvf urjtag-x.y.tar.gz
 cd urjtag-x.y
 ./configure
@@ -789,7 +745,6 @@ make install</literallayout>
 <section id="_installing_from_subversion_repository">
 <title>Installing from Subversion repository</title>
 <simpara>If you want to try the very newest version of UrJTAG&#8230;</simpara>
-
 <literallayout class="monospaced">svn co http://urjtag.svn.sourceforge.net/svnroot/urjtag/trunk urjtag</literallayout>
 <literallayout class="monospaced">cd urjtag/jtag
 ./autogen.sh
@@ -800,7 +755,6 @@ make install</literallayout>
 <section id="_linking_to_ftd2xx_dll_in_cygwin_environment">
 <title>Linking to FTD2XX.DLL in Cygwin environment</title>
 <simpara>Before running configure, get the D2XX drivers from FTDI.</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -810,11 +764,9 @@ make install</literallayout>
 </itemizedlist>
 <simpara>Unzip the archive into a directory of your choice (probably a choice
 without spaces in the name is better) and afterwards run configure with the
-"&#8212;with-ftd2xx" pointing to that directory, e.g.</simpara>
-
+"--with-ftd2xx" pointing to that directory, e.g.</simpara>
 <literallayout class="monospaced">./configure --with-ftd2xx="/cygdrive/c/temp/ftdi-cdm-drivers"</literallayout>
 <simpara>Configure should now report</simpara>
-
 <literallayout class="monospaced">jtag is now configured for
   ...
   Detected libftd2xx   : yes</literallayout>
@@ -822,7 +774,6 @@ without spaces in the name is better) and afterwards run configure with the
 <section id="_using_libusb_win32_in_cygwin_environment">
 <title>Using LibUSB-Win32 in Cygwin environment</title>
 <simpara>Before running configure, install the LibUSB-Win32 "filter" driver from SF.</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -832,37 +783,29 @@ without spaces in the name is better) and afterwards run configure with the
 </itemizedlist>
 <simpara>Then point configure to the directory where LibUSB-Win32 was installed (it
 might give problems if the path contains spaces, as "Program Files" does!):</simpara>
-
 <literallayout class="monospaced">./configure --with-libusb="/cygdrive/c/Programme/LibUSB-Win32/"</literallayout>
 </section>
 <section id="_compiling_with_mingw">
 <title>Compiling with MinGW</title>
 <simpara>UrJTAG may be compiled into a Windows executable using the MinGW compiler
 (<ulink url="http://www.mingw.org">http://www.mingw.org</ulink>), or Cygwin GCC with the "-mno-cygwin" compiler flag.</simpara>
-
-<simpara>This has the advantage over running in a Cygwin environment that you don't need
+<simpara>This has the advantage over running in a Cygwin environment that you don&#8217;t need
 to install anything else but the jtag.exe (plus libraries like FTD2XX.dll or
 InpOut32.DLL that are required for device access under Windows in any case).</simpara>
-
 <simpara>However, because support for MinGW is quite new in UrJTAG, it may lack some
 features (e.g. readline support) or run a little slower.</simpara>
-
 <simpara>Because it seems to be easier to set up a Cygwin environment, we recommend
 using the Cygwin GCC with "-mno-cygwin" flag instead of using a MinGW setup:</simpara>
-
 <literallayout class="monospaced">CFLAGS="-mno-cygwin -O2" ./configure --with-ftd2xx=/tmp/cdm-drivers --with-inpout32</literallayout>
 <simpara>It is even possible to cross-compile and build the executable on a Linux
 host:</simpara>
-
 <literallayout class="monospaced">./configure --host=i586-mingw32msvc --with-ftd2xx=/tmp/cdm-drivers --with-inpout32
 make</literallayout>
-<simpara>The "&#8212;with-inpout32" switch tells UrJTAG to use the InpOut32.DLL for access to
-parallel ports, because the Cygwin ioperm isn't available for MinGW. The InpOut32
+<simpara>The "--with-inpout32" switch tells UrJTAG to use the InpOut32.DLL for access to
+parallel ports, because the Cygwin ioperm isn&#8217;t available for MinGW. The InpOut32
 library is available from logix4u.net:</simpara>
-
 <literallayout class="monospaced">http://logix4u.net/Legacy_Ports/Parallel_Port/Inpout32.dll_for_Windows_98/2000/NT/XP.html</literallayout>
 <simpara>An version updated to work in Windows Vista and 64 bit Windows is available from highrez:</simpara>
-
 <literallayout class="monospaced">http://www.highrez.co.uk/Downloads/InpOut32/</literallayout>
 </section>
 <section id="_driver_tailoring">
@@ -870,28 +813,24 @@ library is available from logix4u.net:</simpara>
 <simpara>The configure script enables all default bus, cable and lowlevel drivers. You
 can include and exclude specific drivers if required. For a list of parameters
 run</simpara>
-
 <literallayout class="monospaced">./configure --help</literallayout>
-<simpara>to figure out the appropriate &#8212;enable-bus, &#8212;enable-cable, and &#8212;enable-lowlevel
+<simpara>to figure out the appropriate --enable-bus, --enable-cable, and --enable-lowlevel
 options.</simpara>
-
 </section>
 <section id="_building_the_bsdl_subsystem">
 <title>Building the BSDL subsystem</title>
 <simpara>As mentioned above, building the BSDL lexer requires Flex 2.5.33 or newer. If
 the detected Flex version is not recent enough, configure will disable the
 BSDL subsystem. The detection result is summarized at the end of configure:</simpara>
-
 <literallayout class="monospaced">jtag is now configured for
   ...
   Build BSDL subsystem : yes</literallayout>
-<simpara>Flex is only required when you're working on a check-out of the Subversion
+<simpara>Flex is only required when you&#8217;re working on a check-out of the Subversion
 repository. In this case Flex has to be called to transform bsdl_flex.l to
-bsdl_flex.c. When you're compiling from released sources, the local Flex
+bsdl_flex.c. When you&#8217;re compiling from released sources, the local Flex
 version is not relevant since the output file of Flex is part of the
 tarball. I.e. even if the local Flex fails the check, the BSDL subsystem is
 enabled and will be compiled from the released C files.</simpara>
-
 </section>
 </section>
 </chapter>
@@ -903,32 +842,25 @@ enabled and will be compiled from the released C files.</simpara>
 <title>Run the software</title>
 <simpara>Connect your JTAG adapter between your PC and target device and turn
 on your device.</simpara>
-
 <simpara>To run UrJTAG type "jtag" and press Enter; jtag should start and
 display some initial information. Output should end with a line like this:</simpara>
-
 <literallayout class="monospaced">WARNING: UrJTAG may damage your hardware!
 Type "quit" to exit, "help" for help.</literallayout>
 </section>
 <section id="_configure_the_cable">
 <title>Configure the cable</title>
 <simpara>Type "help cable" for a list of supported JTAG cables.</simpara>
-
 <simpara>Type the "cable" command followed by the cable name and possibly further
 arguments for cable configuration. Example:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable EA253 parallel 0x378
 Initializing ETC EA253 JTAG Cable on parallel port at 0x378</literallayout>
 <simpara>See the section about the "cable" command for details and USB support.</simpara>
-
 </section>
 <section id="_detect_parts_on_the_jtag_chain">
 <title>Detect parts on the JTAG chain</title>
 <simpara>Type "detect" at the jtag command prompt:</simpara>
-
 <literallayout class="monospaced">jtag&gt; detect</literallayout>
 <simpara>Your output should look like this:</simpara>
-
 <literallayout class="monospaced">IR length: 5
 Chain length: 1
 Device Id: 01011001001001100100000000010011
@@ -937,10 +869,8 @@ Device Id: 01011001001001100100000000010011
   Stepping:     C0
   Filename:     /usr/local/share/urjtag/intel/pxa250/pxa250c0</literallayout>
 <simpara>If you get empty output or an error message your JTAG adapter is not connected
-properly, or your target board doesn't work, or it is turned off.</simpara>
-
+properly, or your target board doesn&#8217;t work, or it is turned off.</simpara>
 <simpara>The "detect" command is required before all other commands.</simpara>
-
 </section>
 <section id="_print_current_jtag_chain_status">
 <title>Print current JTAG chain status</title>
@@ -981,7 +911,6 @@ addr: 0x00002854
 Done.
 jtag&gt;</literallayout>
 <simpara>or:</simpara>
-
 <literallayout class="monospaced">jtag&gt; flashmem msbin xboot.bin
 Note: Supported configuration is 2 x 16 bit only
 BOOT_SEL: Asynchronous 32-bit ROM</literallayout>
@@ -1012,21 +941,19 @@ jtag&gt;</literallayout>
 <simpara>Erasing and programming flash devices is covered by standard procedures
 in UrJTAG. Apart from these, many flash chips implement a lot more
 functionality via dedicated commands that vary from between manufacturers
-and device families. UrJTAG can't cover them all natively.</simpara>
-
-<simpara>It's however possible to send any command stream to the flash by using
+and device families. UrJTAG can&#8217;t cover them all natively.</simpara>
+<simpara>It&#8217;s however possible to send any command stream to the flash by using
 the poke and peek commands. You just need to clarify two things:</simpara>
-
-<orderedlist>
+<orderedlist numeration="arabic">
 <listitem>
 <simpara>
-base address of the flash (BA)
-    it's the same that's used for detectflash
+base address of the flash (BA)<?asciidoc-br?>
+    it&#8217;s the same that&#8217;s used for detectflash
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-data width, x8 or x16
+data width, x8 or x16<?asciidoc-br?>
     defined by the width of the bus where the flash is attached
 </simpara>
 </listitem>
@@ -1035,16 +962,13 @@ data width, x8 or x16
 sheet for your particular flash should document all commands in a table e.g.
 If your flash is attached in x16 mode, the address must be shifted by one
 position. Addresses in x8 mode are not affected.</simpara>
-
 <simpara>The "Read Manufacturer ID" command in x16 mode would look like</simpara>
-
 <literallayout class="monospaced">poke BA+(0x555*2) 0xaa
 poke BA+(0x2aa*2) 0x55
 poke BA+(0x555*2) 0x90
 peek BA+(0x000*2)</literallayout>
-<simpara>Note that the calculations must be done beforehand. UrJTAG can't evaluate
+<simpara>Note that the calculations must be done beforehand. UrJTAG can&#8217;t evaluate
 expressions on the command line.</simpara>
-
 </section>
 </section>
 <section id="_jtag_commands">
@@ -1053,332 +977,327 @@ expressions on the command line.</simpara>
 <title>Overview</title>
 <simpara>Following is a list of commands currently supported by jtag and some
 example usage.</simpara>
-
-<informaltable tabstyle="hlabeledlist" pgwide="0" frame="none" colsep="0" rowsep="0"><tgroup cols="2"><colspec colwidth="3*"/><colspec colwidth="7*"/><tbody valign="top">
-<row>
-<entry><simpara>
+<variablelist>
+<varlistentry>
+<term>
 <emphasis role="strong">bit</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 define new BSR bit
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">bus</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 change active bus
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">bsdl</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 manage BSDL files
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">cable</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 select JTAG cable
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">detect</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 detect parts on the JTAG chain
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">detectflash</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 detect parameters of flash chips attached to a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">discovery</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 discovery of unknown parts in the JTAG chain
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">dr</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 display or set active data register for a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">endian</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
-set/print endianess for reading/writing binary files
+set/print endianness for reading/writing binary files
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">eraseflash</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 erase flash memory by number of blocks
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">flashmem</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 burn flash memory with data from a file
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">frequency</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 setup JTAG frequency
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">get</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 get external signal value
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">help</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 display this help
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">include</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 include command sequence from external file
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">initbus</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 initialize bus driver for active part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">instruction</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 change active instruction for a part or declare new instruction
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">part</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 change active part for current JTAG chain
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">peek</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 read a single word
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">poke</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 write a single word
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">print</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 display JTAG chain list/status
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">quit</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 exit and terminate this session
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">readmem</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 read content of the memory and write it to file
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">register</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 define new data register for a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">scan</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 detect changes on input pins of current part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">set</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 set external signal value
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">shift</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 shift data/instruction registers through JTAG chain
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">signal</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 define new signal for a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">svf</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 execute SVF commands from file
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">writemem</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 write content from file to memory
 </simpara>
-</entry>
-</row>
-</tbody></tgroup></informaltable>
+</listitem>
+</varlistentry>
+</variablelist>
 <simpara>Some tools derived from the same openwince JTAG Tools code base as UrJTAG
 know additional commands, which are not supported in UrJTAG. See the section
 about "Unsupported commands", below, about workarounds.</simpara>
-
 </section>
 <section id="_basic_commands">
 <title>Basic commands</title>
 <section id="_quit">
 <title>quit</title>
 <simpara>This command closes the jtag console.</simpara>
-
 </section>
 <section id="_help">
 <title>help</title>
 <simpara>Without additional parameter it gives an overview of the available commands.
 With a parameter you can get more information about any of the commands.
 Example:</simpara>
-
 <literallayout class="monospaced">jtag&gt; help cable</literallayout>
 <simpara>Most cable drivers require some more details about the cable to start properly.
 To learn about the details, use the "cable" command with the name of the cable
 followed by the word "help". Example:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable wiggler help</literallayout>
 </section>
 <section id="_include">
@@ -1387,21 +1306,17 @@ followed by the word "help". Example:</simpara>
 file to the active part. The directory prefix is added automatically
 (e.g. /usr/share/urjtag/, depending on your installation), unless the file
 name starts with a dot or slash.</simpara>
-
 <simpara>For example, the following startup sequence configures the cable, chain, and
 loads definitions and bus driver for a Samsung S3C4510B CPU to peek its memory
 at 0x0:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable wiggler ppdev /dev/parport0
 jtag&gt; detect
 jtag&gt; include samsung/s3c4510b/s3c4510b
 jtag&gt; peek 0x0000</literallayout>
 <simpara>If the file contains valid BSDL syntax, it will be converted to native
 commands on the fly.</simpara>
-
 <simpara>Optionally, a number X may be specified following the file name, to cause
 an X times repetition of the command sequence from the file.</simpara>
-
 </section>
 </section>
 <section id="_chain_management">
@@ -1410,17 +1325,14 @@ an X times repetition of the command sequence from the file.</simpara>
 <title>cable</title>
 <simpara>Sets and initializes the cable driver. This is usually the first command that
 you are executing in a session. Example:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable EA253 parallel 0x378
 Initializing ETC EA253 JTAG Cable on parallel port at 0x378</literallayout>
 <simpara>For a parallel cable using the ppdev driver you would use this:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable DLC5 ppdev /dev/parport0</literallayout>
 <simpara>If you get an error, it may be that the parallel port kernel driver
-was compiled as a module in your Linux kernel and wasn't loaded automatically.
+was compiled as a module in your Linux kernel and wasn&#8217;t loaded automatically.
 Then you should try to load the ppdev driver manually (with root rights outside
 the jtag shell):</simpara>
-
 <literallayout class="monospaced">modprobe ppdev
 modprobe parport
 modprobe parport_pc</literallayout>
@@ -1429,36 +1341,31 @@ for "JTAG over USB", so this support is limited to a few selected cables only.
 For cables based on the FT2232 chip from FTDI, the cable command has to be
 given cable name and optionally the driver name, USB Vendor, and Product ID of
 the cable:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable ARM-USB-OCD vid=15ba pid=0003 driver=ftdi-mpsse</literallayout>
 <simpara>For all known cables, UrJTAG knows the VID and PID so you can just say</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable ARM-USB-OCD</literallayout>
-<simpara>If your cable isn't detected automatically though it's listed as a known and
+<simpara>If your cable isn&#8217;t detected automatically though it&#8217;s listed as a known and
 supported cable, feel free to report its VID and PID. It might be a different
 revision and should be added to the known &amp; tested list of cables.</simpara>
-
 <simpara>As stated above, the driver name is not mandatory for the cable
-command. UrJTAG will select the driver automatically based on UrJTAG's
+command. UrJTAG will select the driver automatically based on UrJTAG&#8217;s
 configuration.  In case your system provides just one of libftdi or FTD2XX
 the respective driver is selected. If both libraries are available, then
-FTD2XX is selected. That's simply because FTD2XX showed some performance
+FTD2XX is selected. That&#8217;s simply because FTD2XX showed some performance
 advantages over libftdi in the past. You can still force libftdi with the
 respective parameter.</simpara>
-
-<warning><simpara>There's one quirk to consider when using FTDI's FTD2XX driver. It
-connects to any known FTDI chip, randomly. I.e. if there's more than one FTDI
+<warning><simpara>There&#8217;s one quirk to consider when using FTDI&#8217;s FTD2XX driver. It
+connects to any known FTDI chip, randomly. I.e. if there&#8217;s more than one FTDI
 device connected to the host, chances are that the driver connects to the
-wrong USB device. This might be an OEM USB-serial converter and you'll be
-banging your head why there's no proper reading from the JTAG chain. Therefore
-it's strongly recommended to specify the desc=xxx parameter for the cable
+wrong USB device. This might be an OEM USB-serial converter and you&#8217;ll be
+banging your head why there&#8217;s no proper reading from the JTAG chain. Therefore
+it&#8217;s strongly recommended to specify the desc=xxx parameter for the cable
 command if the ftd2xx driver is to be used. Set xxx to the product or serial
 number descriptor string that are exhibited by the USB device.</simpara></warning>
 </section>
 <section id="_detect">
 <title>detect</title>
 <simpara>Detects devices on the chain. Example:</simpara>
-
 <literallayout class="monospaced">jtag&gt; detect
 IR length: 5
 Chain length: 1
@@ -1473,41 +1380,35 @@ command) to find a match for the manufacturer, revision and part number for the
 IDCODE read from the part. However, not all parts identify themselves in a way
 that is useful for "detect". For example, many chips with an ARM processor core
 inside present an IDCODE that may be specific to the the particular core inside
-the chip (e.g. ARM7TDMI), but doesn't tell about the actual manufacturer of
+the chip (e.g. ARM7TDMI), but doesn&#8217;t tell about the actual manufacturer of
 the chip. In such case, the data for the part has to be included manually. See
 also the documentation for the "include" command.</simpara>
-
 </section>
 <section id="_print">
 <title>print</title>
 <simpara>Print a list of parts in the chain and the currently active instruction per part.
 Further details of bus, signals and instructions can be obtained with dedicated
 command options, see "help print".</simpara>
-
 </section>
 <section id="_initbus">
 <title>initbus</title>
 <simpara>Selects and initializes a bus of the currently selected part, e.g. the external
-memory bus of a CPU. This is required in order to access chips that aren't
+memory bus of a CPU. This is required in order to access chips that aren&#8217;t
 connected in the JTAG chain, but indirectly accessible through other chips
 (e.g. CPU or programmable logic).</simpara>
-
 <simpara>Type "help initbus" to get a list of supported bus types.
 If you do not find a bus driver for your specific hardware, you might be lucky
 enough to have EJTAG in your target (most MIPS-based CPUs do) and should try
 the "ejtag" bus driver. In contrast to the method "via BSR", it uploads some
 instructions to the CPU and triggers their execution to access the bus, and
-should work with almost any EJTAG-capable chip (Note: JTAG isn't EJTAG):</simpara>
-
+should work with almost any EJTAG-capable chip (Note: JTAG isn&#8217;t EJTAG):</simpara>
 <literallayout class="monospaced">jtag&gt; initbus ejtag</literallayout>
-<simpara>There's another option to support new chips "via BSR", the "prototype" bus
+<simpara>There&#8217;s another option to support new chips "via BSR", the "prototype" bus
 driver, which can be adapted to support your part with command parameters.
 The only prerequisite for using this driver is knowledge of the names of the
 signals that represent address bus, data bus, and enable signals, and that
 address and data lines are numbered in order.</simpara>
-
 <simpara>For example, assume the signals are named in the BSDL description as follows:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -1540,38 +1441,32 @@ names). Further we assume the interesting connected part, some flash chip, is
 only 16 bits wide even though the data bus width is 32 bits.  With this
 information, you could use the following command (all on a single line!) to
 access the bus:</simpara>
-
 <literallayout class="monospaced">initbus prototype amsb=ADDR22 alsb=ADDR0 dmsb=D15 dlsb=D0
           ncs=nRCS0 nwe=nWE noe=nOE amode=x16</literallayout>
 <simpara>The "prototype" bus driver cannot deal with systems where address and data
-bus are multiplexed on the same pins. If signals aren't numbered in the right
+bus are multiplexed on the same pins. If signals aren&#8217;t numbered in the right
 order or with gaps, you may get along by defining proper names as aliases for
 the actual signals, with commands like "salias ADDR12 BSCGX44".</simpara>
-
 <simpara>Most drivers work "via BSR", i.e. they directly access the pins of the device.
-Because it isn't possible to efficiently address only particular pins but only
+Because it isn&#8217;t possible to efficiently address only particular pins but only
 all at once, and data for all pins has to be transferred through JTAG for every
-single change, this method isn't the fastest, but usually easiest to implement
+single change, this method isn&#8217;t the fastest, but usually easiest to implement
 and, well, sometimes it counts whether it works at all.</simpara>
-
 <simpara>The "fjmem" (FPGA JTAG memory) bus driver attempts to address this issue by
 moving control and observation away from BSR to a device-internal
 register. For sure this is only possible on FPGAs where the designer can hook
 additional logic to the JTAG chain. A core design plus examples for different
 FPGA families is available in the extra/fjmem directory. Refer to the README
 located there.</simpara>
-
-<simpara>Some chips don't allow direct access to their pins via BSR at all. For these,
+<simpara>Some chips don&#8217;t allow direct access to their pins via BSR at all. For these,
 writing a new bus driver that utilizes a debug module to upload specific code
 to access the bus is inevitable.</simpara>
-
 </section>
 <section id="_bus">
 <title>bus</title>
-<simpara>It's possible to initialize more than one bus for part(s) within a chain. The
+<simpara>It&#8217;s possible to initialize more than one bus for part(s) within a chain. The
 "bus" command allows to select the active bus for readmem, flashmem,
 etc. operation.</simpara>
-
 </section>
 </section>
 <section id="_part_definition_commands">
@@ -1580,216 +1475,213 @@ etc. operation.</simpara>
 on the JTAG chain. It is not recommended to use these commands in an interactive
 session. Instead you should produce a device definition file out of a .bsd file
 using one of the supplied tools (or use the new BSDL subsystem, see below).</simpara>
-
-<informaltable tabstyle="hlabeledlist" pgwide="0" frame="none" colsep="0" rowsep="0"><tgroup cols="2"><colspec colwidth="3*"/><colspec colwidth="7*"/><tbody valign="top">
-<row>
-<entry><simpara>
+<variablelist>
+<varlistentry>
+<term>
 <emphasis role="strong">bit</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 define new BSR bit
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">instruction</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 change active instruction for a part or declare new instruction
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">register</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 define new data register for a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">signal</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 define new signal for a part
 </simpara>
-</entry>
-</row>
-</tbody></tgroup></informaltable>
+</listitem>
+</varlistentry>
+</variablelist>
 </section>
 <section id="_tap_control">
 <title>TAP control</title>
 <simpara>The following commands can be used to directly manipulate and display the state
 of the TAP controller(s) and registers in the chain:</simpara>
-
-<informaltable tabstyle="hlabeledlist" pgwide="0" frame="none" colsep="0" rowsep="0"><tgroup cols="2"><colspec colwidth="3*"/><colspec colwidth="7*"/><tbody valign="top">
-<row>
-<entry><simpara>
+<variablelist>
+<varlistentry>
+<term>
 <emphasis role="strong">dr</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 display or set active data register for a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">instruction</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 change active instruction for a part or declare new instruction
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">get</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 get external signal value
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">pod</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 low level direct access to POD signals like TRST; use with care
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">scan</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 detect changes on input pins of current part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">set</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 set external signal value
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">shift</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 shift data/instruction registers through JTAG chain
 </simpara>
-</entry>
-</row>
-</tbody></tgroup></informaltable>
+</listitem>
+</varlistentry>
+</variablelist>
 </section>
 <section id="_ram_flash_access">
 <title>RAM/Flash access</title>
 <simpara>These commands can be used if a part in the chain has memory connected to it
 (or integrated). Before they can be used, a bus driver has to be selected and
 initialized (see initbus command).</simpara>
-
-<informaltable tabstyle="hlabeledlist" pgwide="0" frame="none" colsep="0" rowsep="0"><tgroup cols="2"><colspec colwidth="3*"/><colspec colwidth="7*"/><tbody valign="top">
-<row>
-<entry><simpara>
+<variablelist>
+<varlistentry>
+<term>
 <emphasis role="strong">detectflash</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 detect parameters of flash chips attached to a part
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">endian</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
-set/print endianess for reading/writing binary files
+set/print endianness for reading/writing binary files
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">eraseflash</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 erase flash memory by number of blocks
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">flashmem</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 burn flash memory with data from a file
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">peek</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 read a single word
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">poke</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 write a single word
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">readmem</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 read content of the memory and write it to file
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 <emphasis role="strong">writemem</emphasis>
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 write content from file to memory
 </simpara>
-</entry>
-</row>
-</tbody></tgroup></informaltable>
+</listitem>
+</varlistentry>
+</variablelist>
 </section>
 <section id="_highlevel_commands">
 <title>Highlevel commands</title>
@@ -1798,14 +1690,11 @@ write content from file to memory
 <simpara>The SVF player operates on a single part in the scan chain. Therefore, you
 have to bring up the JTAG software, specify a cable and detect the scan
 chain beforehand.</simpara>
-
 <simpara>The player will establish a new instruction called "SIR" and a new register
 called "SDR". They are used internally by the respective SVF commands and are
 reassigned with new values as the player advances through the file. It is not
 recommended to use them outside of the SVF player as their content is dynamic.</simpara>
-
 <simpara>An example session:</simpara>
-
 <literallayout class="monospaced">jtag&gt; cable ppdev /dev/parport0 DLC5
 Initializing Xilinx DLC5 JTAG Parallel Cable III on ppdev port /dev/parport0
 jtag&gt; detect
@@ -1824,32 +1713,27 @@ jtag&gt; part &lt;next part&gt;
 jtag&gt; svf &lt;SVF file for selected part&gt;
 jtag&gt; instruction BYPASS
 jtag&gt; shift ir</literallayout>
-<simpara>It is recommended to set the part's instruction register to BYPASS although
+<simpara>It is recommended to set the part&#8217;s instruction register to BYPASS although
 most SVF files do this at the end. By setting the instruction explicitely to
 BYPASS the output of the print command will always show meaningful
 information.</simpara>
-
 <simpara>The SVF player will issue messages when situations arise that cannot be
 handled. These messages are classified as warnings or errors depending on
 whether the player can continue operation (warning) or not (error).
 In case the TDO parameter of an SDR command leads to a mismatch the player
 issues a warning and continues. If the player should abort in this case then
 specify <emphasis>stop</emphasis> at the svf command.</simpara>
-
 <simpara>The absence of error or warning messages indicate that the SVF file was
 executed without problems. To get a progress reporting while the player advances
 through the SVF file, specify <emphasis>progress</emphasis> at the svf command.</simpara>
-
 <sidebar>
 <title>Limitations and Deficiencies</title>
 <simpara>Several limitations exist for the SVF player.</simpara>
-
 <simpara>The implementation of some SVF commands has deficiencies.</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
-HIR, HDR commands not supported.
+HIR, HDR commands not supported.<?asciidoc-br?>
     Their functionality should be covered by the part concept of UrJTAG.
 </simpara>
 </listitem>
@@ -1865,19 +1749,19 @@ PIOMAP command not supported.
 </listitem>
 <listitem>
 <simpara>
-RUNTEST SCK not supported.
+RUNTEST SCK not supported.<?asciidoc-br?>
     The maximum time constraint is not guaranteed.
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-TRST
+TRST<?asciidoc-br?>
     Parameters Z and ABSENT are not supported.
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-TIR, TDR commands not supported.
+TIR, TDR commands not supported.<?asciidoc-br?>
     Their functionality should be covered by the part concept of UrJTAG.
 </simpara>
 </listitem>
@@ -1885,20 +1769,17 @@ TIR, TDR commands not supported.
 <simpara>SVF files for programming flash-based devices might or might not work for a given
 setup. This has been observed for Actel IGLOO devices where success and failure
 depends on the actual clocking rate of the chosen cable.</simpara>
-
 <simpara>The ref_freq=&lt;&#8230;&gt; option to the svf command allows to tweak the calculation
 of <emphasis>RUNTEST xxx SEC</emphasis> commands. For these commands, the SVF player needs to
 calculate the equivalent number of clocks and per default it will use the
 current cable clock frequency. This can be overridden with the ref_freq option
 that specifies a fixed reference frequency for such calculations.</simpara>
-
 </sidebar>
 </section>
 <section id="_bsdl">
 <title>bsdl</title>
 <simpara>The <emphasis>bsdl</emphasis> command is used to set up and test the underlying BSDL subsystem of
 UrJTAG.</simpara>
-
 <simpara>Whenever <emphasis>detect</emphasis> encounters a new part, a configuration process is
 started. This involves matching the retrieved IDCODE against the part
 descriptions in /usr/share/urjtag as described above. However, before this
@@ -1906,42 +1787,39 @@ database is searched for a suitable description, the BSDL subsystem is started
 and searches for a BSDL file that matches this device. If it finds a matching
 file, traversal of the /usr/share/urjtag database is skipped. If not, then
 this standard process follows.</simpara>
-
 <simpara>To tell the BSDL subsytem where to look for BSDL files, the <emphasis>bsdl path
 pathlist</emphasis> command has to be issued prior to <emphasis>detect</emphasis>. The contents of
 <emphasis>pathlist</emphasis> must be a semicolon-separated list of directories where BSDL files
 are located. This list is stored by <emphasis>bsdl path</emphasis> and is used later on when
 <emphasis>detect</emphasis> calls the BSDL subsystem.</simpara>
-
 <important><simpara>The BSDL subsystem applies the first BSDL file that parses without
 errors and that contains the correct IDCODE. Scanning the specified
 directories happens in exactly the given order. Inside a directory however,
-the order depends largely on your filesystem's behavior.</simpara></important>
+the order depends largely on your filesystem&#8217;s behavior.</simpara></important>
 <simpara>Further details of the <emphasis>bsdl</emphasis> command:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
-bsdl path &lt;path1&gt;[;&lt;path2&gt;[;&lt;pathN&gt;]]
+bsdl path &lt;path1&gt;[;&lt;path2&gt;[;&lt;pathN&gt;]]<?asciidoc-br?>
     set paths for locating BSDL files
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-bsdl debug on|off
+bsdl debug on|off<?asciidoc-br?>
     switches debug messages on or off
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-bsdl test [file]
+bsdl test [file]<?asciidoc-br?>
     reads file (if specified) or all files found via <emphasis>bsdl path</emphasis> and
     prints a short status, an active part is not required
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-bsdl dump [file]
+bsdl dump [file]<?asciidoc-br?>
     reads file (if specified) or all files found via <emphasis>bsdl path</emphasis> and
     prints all configuration commands, an active part is not required
 </simpara>
@@ -1955,17 +1833,15 @@ bsdl2jtag.</simpara></tip>
 <title>Unsupported commands</title>
 <section id="_script">
 <title>script</title>
-<simpara>Although it's still there, its functionality has been merged into the include
+<simpara>Although it&#8217;s still there, its functionality has been merged into the include
 command. Please use "include" instead.</simpara>
-
 </section>
 <section id="_setdevice">
 <title>setdevice</title>
 <simpara>This command was only there to support the SHARC 21065L processor,
-which has no IDCODE and therefore can't be initialized correctly by
+which has no IDCODE and therefore can&#8217;t be initialized correctly by
 just running "detect". However, the proper initialization can be done
 after "detect" by loading the proper declarations and bus driver manually:</simpara>
-
 <literallayout class="monospaced">jtag&gt; include analog/sharc21065l/sharc21065l</literallayout>
 </section>
 <section id="_spiflashmem">
@@ -1973,7 +1849,6 @@ after "detect" by loading the proper declarations and bus driver manually:</simp
 <simpara>The commands "spidetectflash", "spiflashmem", "spireadflash" and
 "spieraseflash" only exist in a version of the JTAG tools copyrighted by
 Intratrade Ltd., we just know about them from a posting on the net.</simpara>
-
 </section>
 </section>
 </section>
@@ -1982,143 +1857,142 @@ Intratrade Ltd., we just know about them from a posting on the net.</simpara>
 <title>Internals</title>
 <simpara>This section is only a placeholder for the information that will
 be added soon&#8230;</simpara>
-
 <section id="_files">
 <title>Files</title>
 <section id="_source_code_overview">
 <title>Source code Overview</title>
-<informaltable tabstyle="hlabeledlist" pgwide="0" frame="none" colsep="0" rowsep="0"><tgroup cols="2"><colspec colwidth="3*"/><colspec colwidth="7*"/><tbody valign="top">
-<row>
-<entry><simpara>
+<variablelist>
+<varlistentry>
+<term>
 doc/
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Documentation
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 data/
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Part descriptions (data files)
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 include/
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 C header files
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 C source code
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/bsdl
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 BSDL subsystem
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/bus
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Bus driver for various CPUs and other parts
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/cmd
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Implementation of the commands for the "jtag" shell
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/flash
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Flash detection and programming algorithms
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/jim
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 JIM, the JTAG target simulator
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/lib
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Utility functions
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/part
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Functions for accessing specific parts in a chain
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/svf
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 SVF player
 </simpara>
-</entry>
-</row>
-<row>
-<entry><simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
 src/tap
-</simpara></entry>
-<entry>
+</term>
+<listitem>
 <simpara>
 Functions for accessing the chain in general
 </simpara>
-</entry>
-</row>
-</tbody></tgroup></informaltable>
+</listitem>
+</varlistentry>
+</variablelist>
 </section>
 </section>
 <section id="_drivers">
@@ -2163,9 +2037,8 @@ Commands
 <section id="_cable_specific_drivers_src_tap_cable">
 <title>Cable-specific drivers (src/tap/cable)</title>
 <simpara>Cable-specific drivers are those which are visible to the user through
-the "jtag" command shell. They're listed in response to the "help cable"
+the "jtag" command shell. They&#8217;re listed in response to the "help cable"
 command. Each driver has to provide the following functions:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2201,17 +2074,14 @@ help() - a help text to be displayed by the jtag command shell
 <section id="_initialization">
 <title>Initialization</title>
 <simpara>After allocating a "cable_t" structure, a pointer to it and further
-parameters (as strings) have to be passed first  to the selected cable's
+parameters (as strings) have to be passed first  to the selected cable&#8217;s
 connect() function.</simpara>
-
 <simpara>Following that, the init() function is called via cable_init(). If cable_init()
 returns a zero value, all is fine and the cable is ready for use.</simpara>
-
 </section>
 <section id="_cleaning_up">
 <title>Cleaning up</title>
 <simpara>There are two functions for actual cleanup:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2225,43 +2095,39 @@ cable_free() then can be used to clean up eventually extra allocated memory etc.
 </listitem>
 </itemizedlist>
 <simpara>Both are usually called from chain_disconnect().</simpara>
-
 <simpara>An additional mechanism allows to clean up if a disconnection was detected by
 the low level driver (e.g. USB or parallel port driver). A cable has to provide
 a disconnect() function for this purpose:</simpara>
-
-<orderedlist>
+<orderedlist numeration="arabic">
 <listitem>
 <simpara>
-Low level (e.g. parport) driver calls cable driver-&gt;disconnect()
+Low level (e.g. parport) driver calls cable driver&#8594;disconnect()
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-cable driver-&gt;disconnect() calls chain_disconnect()
+cable driver&#8594;disconnect() calls chain_disconnect()
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-chain_disconnect() calls cable driver-&gt;done()
+chain_disconnect() calls cable driver&#8594;done()
 </simpara>
 </listitem>
 <listitem>
 <simpara>
-chain_disconnect() then calls cable driver-&gt;cable_free()
+chain_disconnect() then calls cable driver&#8594;cable_free()
 </simpara>
 </listitem>
 </orderedlist>
-<simpara>After return from chain_disconnect() to cable driver-&gt;disconnect(), the cable_t
+<simpara>After return from chain_disconnect() to cable driver&#8594;disconnect(), the cable_t
 structure has been freed and must not be accessed anymore.</simpara>
-
 </section>
 <section id="_jtag_activities">
 <title>JTAG Activities</title>
 <simpara>Currently the API provides five different functions for performing operations
 at the JTAG interface on the low level signal level (using the four signals
 TMS, TCK, TDI, and TDO).</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2284,20 +2150,18 @@ get_trst() returns the current value of the TRST signal.
 </simpara>
 </listitem>
 </itemizedlist>
-<simpara>For many JTAG adapters, there's almost no delay when doing alternating clock()
+<simpara>For many JTAG adapters, there&#8217;s almost no delay when doing alternating clock()
 and get_tdo(). Writing and reading happens immediately and the result is
 available immediately as well. This is the case with most parallel port
 adapters (but not when attached to USB-to-parallel adapters or USB docking
 stations) and memory mapped IO (e.g. general purpose I/O pins of
 microcontrollers).</simpara>
-
 <simpara>But there are adapters, especially USB and Ethernet based adapters, which
 exhibit a rather long delay between the initiation of reading a bit and the
 delivery of the value of the bit. It is at least 1 millisecond with USB,
 which would limit the transfer rate to 1 kHz.  One way to workaround this
 is to transmit bits compacted into bytes and chunks of bytes, which is
 possible with the transfer() function.</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2310,14 +2174,12 @@ bytes from memory. The bytes are automatically serialized. TMS is set to zero
 during transfer()s. Optionally, prior to each bit shifted out to the interface,
 TDO input can be read into memory (deserialized into a byte array of the same
 size as the input array).</simpara>
-
-<simpara>It still doesn't yield much improvement if the operation consists of many read
+<simpara>It still doesn&#8217;t yield much improvement if the operation consists of many read
 and write transitions (e.g. repeatedly writing an instruction and some data
 register values, then reading from the data register, as it is necessary for
 memory access). For that reason, the above functions are also available in
-variants that don't cause immediate activity, but rather schedule it for later.
-In the API, they're visible as</simpara>
-
+variants that don&#8217;t cause immediate activity, but rather schedule it for later.
+In the API, they&#8217;re visible as</simpara>
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2345,12 +2207,11 @@ cable_defer_transfer()
 </simpara>
 </listitem>
 </itemizedlist>
-<simpara>These functions aren't implemented in the cable driver (but currently in
+<simpara>These functions aren&#8217;t implemented in the cable driver (but currently in
 src/tap/cable.c).  The cable driver just has to provide a flush() function to
 actually execute the queued activity in some cable-specific optimal way, and
 to store the results of get_tdo() and transfer() activity. The caller later
 can pick up the results using these functions (implemented in cable.c):</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2369,8 +2230,7 @@ cable_transfer_late()
 </listitem>
 </itemizedlist>
 <simpara>As an example, consider the following sequence of activities:</simpara>
-
-<orderedlist>
+<orderedlist numeration="arabic">
 <listitem>
 <simpara>
 clock()
@@ -2392,10 +2252,9 @@ get_tdo()
 </simpara>
 </listitem>
 </orderedlist>
-<simpara>If the result of the first get_tdo() isn't absolutely required before the
+<simpara>If the result of the first get_tdo() isn&#8217;t absolutely required before the
 second clock(), the sequence can be optimized into the following sequence (if</simpara>
-
-<orderedlist>
+<orderedlist numeration="arabic">
 <listitem>
 <simpara>
 defer_clock()
@@ -2423,17 +2282,15 @@ get_tdo_late()
 </listitem>
 </orderedlist>
 <simpara>The next sections explain the queueing mechanism and its limits in detail.</simpara>
-
 </section>
 <section id="_when_flushing_occurs">
 <title>When flushing occurs</title>
 <simpara>The cable_flush() function is used to flush the queue towards the cable. It
 takes one additional argument, "how_much", which may be one of</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
-OPTIONALLY: The cable driver may flush if it's reasonable (e.g. if the
+OPTIONALLY: The cable driver may flush if it&#8217;s reasonable (e.g. if the
    queue has been filled so that some buffer limit for the cable interface
    is reached). It would be wise to flush early to keep the queue small, if
    there is no point in queueing up more items because the transfer to the
@@ -2444,7 +2301,7 @@ OPTIONALLY: The cable driver may flush if it's reasonable (e.g. if the
 <listitem>
 <simpara>
 TO_OUTPUT: The cable driver should at least flush as much so that one
-   output becomes available in the output queue. If there's already something
+   output becomes available in the output queue. If there&#8217;s already something
    in the output queue, this should be interpreted similar to OPTIONALLY. This
    is used by UrJTAG immediately before it wants to use that output.
 </simpara>
@@ -2464,7 +2321,6 @@ COMPLETELY: The cable driver has to flush the queue completely. This is
 <title>JTAG activity queueing</title>
 <simpara>The source in src/tap/cable.c provides to important functions to access the
 two queues "todo" (with activity to be done) and "done" (with results):</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2477,11 +2333,10 @@ cable_get_queue_item
 </simpara>
 </listitem>
 </itemizedlist>
-<simpara>In src/tap/cable/generic.c you'll find two implementations of dequeueing
+<simpara>In src/tap/cable/generic.c you&#8217;ll find two implementations of dequeueing
 algorithms, i.e. implementations of the flush() function. These could be used
 by any new cable driver unless it provides a more sophisticated algorithm
 itself:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2500,7 +2355,6 @@ generic_flush_using_transfer() tries to optimize as many clock() and
 </itemizedlist>
 <simpara>The generic implementations also serve as a template for new cable-specific
 implementations.</simpara>
-
 </section>
 <section id="_generic_implementations">
 <title>Generic implementations</title>
@@ -2508,7 +2362,6 @@ implementations.</simpara>
 look at the code in src/tap/cable/generic.c, which contains generic routines,
 suitable for parallel port based cables (and some for other types of cables as
 well).</simpara>
-
 </section>
 </section>
 <section id="_link_drivers">
@@ -2518,9 +2371,7 @@ communication between cable driver and actual JTAG adapter. The openwince JTAG
 tools supported only parallel port links with the "parport" drivers. UrJTAG
 introduced support for USB links, but in the early releases the drivers for
 these just mimic the parallel port links.</simpara>
-
 <simpara>The basic functions provided by all link drivers are</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2547,14 +2398,11 @@ free(), to free all resources, called from cable driver free()
 <title>parport</title>
 <simpara>Currently there are parport drivers for direct access to the parallel port on a
 PC using I/O addresses (direct.c), and for using ppdev on Linux or ppi on FreeBSD.</simpara>
-
 <simpara>In addition, there are "ftdi" and "ftd2xx" parport drivers that actually are for
 communication with USB cables based on FTDI chips. They cannot be used for
 connecting old parallel port cables through parallel to USB adapters with FTDI
 chips, and probably soon will be rewritten as "usbconn" drivers instead.</simpara>
-
 <simpara>All parport drivers present a common API for setting and reading signals.</simpara>
-
 </section>
 <section id="_usbconn">
 <title>usbconn</title>
@@ -2563,7 +2411,6 @@ devices. At the moment, there are drivers for libusd, libftdi and FTD2XX
 (e.g. to communicate with FTDI chip based cables through libftdi and/or
 FTD2XX, to communicate with Cypress FX2 using EZUSB.SYS or CyUSB.sys, and
 more).</simpara>
-
 </section>
 </section>
 <section id="_bus_drivers">
@@ -2574,10 +2421,8 @@ nor to memory. Any system component that can be read from and written to could
 be seen as attached to a bus. I.e. external or internal memory (RAM, ROM,
 Flash) and peripherals connected to a processor or simply an FPGA with 1:1
 connections.</simpara>
-
 <simpara>The available bus drivers are listed in response to "help initbus". Each
 driver has to provide the following functions:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2637,28 +2482,24 @@ adjust the address on its own if required.</simpara></important>
 <title>Creation</title>
 <simpara>Upon calling of its bus_new() function, the driver allocates a "bus_t"
 structure and performs all required internal initializations.</simpara>
-
 </section>
 <section id="_initialization_2">
 <title>Initialization</title>
 <simpara>After creation of the new "bus_t" structure, the bus_init() function will
-be called to give the driver the possibility to initialize it's internal
+be called to give the driver the possibility to initialize it&#8217;s internal
 states or BSR bits as required. Such functionality has been split from
 bus_new() since some drivers require to re-initialize during runtime.</simpara>
-
 </section>
 <section id="_cleaning_up_2">
 <title>Cleaning up</title>
 <simpara>The driver is supposed to free all allocated memory (including its "bus_t"
-structure). Additionally, it should set the device into a state that doesn't
+structure). Additionally, it should set the device into a state that doesn&#8217;t
 prevent it from normal operation.</simpara>
-
 </section>
 <section id="_short_description">
 <title>Short description</title>
 <simpara>Prints a message describing the driver. This function is called by the "print"
 command before it lists the areas covered by this bus driver.</simpara>
-
 </section>
 <section id="_preparation">
 <title>Preparation</title>
@@ -2666,18 +2507,15 @@ command before it lists the areas covered by this bus driver.</simpara>
 driver should perform the required preparation steps so that
 subsequent calls to the bus_read_* and bus_write functions can perform
 their tasks properly.</simpara>
-
 <simpara>E.g. a BSR bus driver would put the device into EXTEST mode to activate the
 boundary scan register on the device pins.</simpara>
-
 </section>
 <section id="_description_of_the_bus_geometry">
 <title>Description of the bus geometry</title>
-<simpara>At certain stages, the bus driver's bus_area() function is called by other
+<simpara>At certain stages, the bus driver&#8217;s bus_area() function is called by other
 commands to query the bus geometry for a given address. The bus driver must
 fill in the fields of a "bus_area_t" structure describing the geometry of the
 area in which the specified address is located:</simpara>
-
 <itemizedlist>
 <listitem>
 <simpara>
@@ -2701,7 +2539,6 @@ data width in bits
 </listitem>
 </itemizedlist>
 <simpara>Queries with an address out of range must result in an area length of</simpara>
-
 <literallayout class="monospaced">UINT64_C(0x100000000)</literallayout>
 </section>
 <section id="_initiate_reading">
@@ -2711,7 +2548,6 @@ required to shift the address for a read prior to capturing the read
 data. Therefore, the bus_read_start() function is called with the very first
 address to read from. This enables the driver to shift the address into the
 device before it can actually retrieve the read data for this address.</simpara>
-
 </section>
 <section id="_read_access">
 <title>Read access</title>
@@ -2719,8 +2555,7 @@ device before it can actually retrieve the read data for this address.</simpara>
 been addressed by a previous call to bus_read_start() or
 bus_read_next(). Again, this is due to the capture-shift-update sequence of
 JTAG:</simpara>
-
-<orderedlist>
+<orderedlist numeration="arabic">
 <listitem>
 <simpara>
 capture read data from device pins
@@ -2746,7 +2581,6 @@ read access. It is not the address of the data returned by this function call.</
 the higher level command determines that the last data portion is to be read
 from the device. There is no new address and the function driver is supposed
 to return the read data that was addressed previously.</simpara>
-
 </section>
 <section id="_atomic_reading">
 <title>Atomic reading</title>
@@ -2754,14 +2588,12 @@ to return the read data that was addressed previously.</simpara>
 encapsulates reading data from a single address in an atomic operation. Bus
 drivers typically build this function from "bus_read_start()" and a subsequent
 "bus_read_end()".</simpara>
-
 </section>
 <section id="_write_access">
 <title>Write access</title>
 <simpara>This function writes one data element at the specified address. Since this
 translates to a single JTAG operation (capture ignored, shift and update
 address &amp; data), there is no splitting as with the read functions.</simpara>
-
 </section>
 </section>
 </section>
@@ -2770,18 +2602,14 @@ address &amp; data), there is no splitting as with the read functions.</simpara>
 <simpara>JTAG declarations files are located in directory "data". The files contains
 common part specific JTAG information in parseable form, e.g.  list of the JTAG
 commands, boundary scan register, list of JTAG registers, etc.</simpara>
-
 <simpara>Syntax of the JTAG declaration file is defined in the following subsections.</simpara>
-
 <section id="_general_rules">
 <title>General rules</title>
 <simpara>JTAG declaration file is text file which consists of lines. Empty lines are
 ignored. Text after first "#" on the line to the end of line is ignored. This
 is useful for comments.  All other lines are significant.</simpara>
-
 <simpara>Each significant line consists of tokens separated by whitespace. Whitespace
 could be spaces and/or tabs.</simpara>
-
 </section>
 <section id="_signal_definition">
 <title>Signal Definition</title>
@@ -2789,35 +2617,27 @@ could be spaces and/or tabs.</simpara>
 signal name (without spaces in the name). Rest of the line should contain
 whitespace separated list of pins of the part. This list is currently not used
 for any purpose in JTAG Tools. It is intended for future use.</simpara>
-
 </section>
 <section id="_manufacturers_list">
 <title>Manufacturers List</title>
 <simpara>The <emphasis>data/MANUFACTURERS</emphasis> file is used to locate the manufacturer of a specific
 device found in the JTAG chain.  If you get the error <emphasis role="strong">Unknown manufacturer</emphasis>
 when attempting the <emphasis>detect</emphasis> command, this is the file you need to update.</simpara>
-
 <simpara>See the JEDEC document for more information:
-JEDEC Solid State Technology Association, "Standard Manufacturer's
+JEDEC Solid State Technology Association, "Standard Manufacturer&#8217;s
 Identification Code", September 2001, Order Number: JEP106-K</simpara>
-
 <section id="_format">
 <title>Format</title>
-<simpara>The first token is a bit string that matches bits 11-1 of the device's IDCODE.
+<simpara>The first token is a bit string that matches bits 11-1 of the device&#8217;s IDCODE.
 We omit bit 0 because it should always be 1 (per the JEDEC standard).</simpara>
-
 <simpara>The second token is the name of the directory under <emphasis>data/</emphasis> to search for
 specific part information.</simpara>
-
-<simpara>The rest of the line is the human readable form of the manufacturer's name.</simpara>
-
+<simpara>The rest of the line is the human readable form of the manufacturer&#8217;s name.</simpara>
 <simpara>For example, we find this in <emphasis>data/MANUFACTURERS</emphasis>:</simpara>
-
 <literallayout class="monospaced">00001100101   analog          Analog Devices, Inc.</literallayout>
-<simpara>The manufacturer's IDCODE is <literal>000011001011</literal> (notice the last bit is stripped),
+<simpara>The manufacturer&#8217;s IDCODE is <literal>000011001011</literal> (notice the last bit is stripped),
 more part information can be found under <emphasis>data/analog/</emphasis>, and the human friendly
 name is <literal>Analog Devices, Inc.</literal>.</simpara>
-
 </section>
 </section>
 <section id="_parts_list">
@@ -2826,22 +2646,16 @@ name is <literal>Analog Devices, Inc.</literal>.</simpara>
 up further information about a part such as the stepping and signal list.  If
 you get the error <emphasis role="strong">Unknown part</emphasis> when attempting the <emphasis>detect</emphasis> command, this is
 the file you need to update.</simpara>
-
 <section id="_format_2">
 <title>Format</title>
-<simpara>The first token is a bit string that matches bits 27-12 of the device's IDCODE.</simpara>
-
-<simpara>The second token is the name of the directory under the manufacturer's <emphasis>data/</emphasis>
+<simpara>The first token is a bit string that matches bits 27-12 of the device&#8217;s IDCODE.</simpara>
+<simpara>The second token is the name of the directory under the manufacturer&#8217;s <emphasis>data/</emphasis>
 directory to search for specific part information.</simpara>
-
-<simpara>The rest of the line is the human readable form of the part's name.</simpara>
-
+<simpara>The rest of the line is the human readable form of the part&#8217;s name.</simpara>
 <simpara>For example, we find this in <emphasis>data/analog/PARTS</emphasis>:</simpara>
-
 <literallayout class="monospaced">0010011111001000      bf537                   BF537</literallayout>
-<simpara>The part's IDCODE is <literal>0010011111001000</literal>, more part information can be found
+<simpara>The part&#8217;s IDCODE is <literal>0010011111001000</literal>, more part information can be found
 under <emphasis>data/analog/bf537/</emphasis>, and the human friendly name is <literal>BF537</literal>.</simpara>
-
 </section>
 </section>
 <section id="_stepping_list">
@@ -2850,23 +2664,17 @@ under <emphasis>data/analog/bf537/</emphasis>, and the human friendly name is <l
 file that contains information like the signals list.  If you get the error
 <emphasis role="strong">Unknown stepping</emphasis> when attempting the <emphasis>detect</emphasis> command, this is the file you
 need to update.</simpara>
-
 <section id="_format_3">
 <title>Format</title>
-<simpara>The first token is a bit string that matches bits 31-28 of the device's IDCODE.</simpara>
-
+<simpara>The first token is a bit string that matches bits 31-28 of the device&#8217;s IDCODE.</simpara>
 <simpara>The second token is the name of the file to load that contains information like
 the signal list, extra instructions/registers, etc&#8230;  This file should be
 placed alongside the <emphasis>STEPPINGS</emphasis> file in the part-specific subdirectory.</simpara>
-
-<simpara>The rest of the line is the human readable form of the part stepping's name.</simpara>
-
+<simpara>The rest of the line is the human readable form of the part stepping&#8217;s name.</simpara>
 <simpara>For example, we find this in <emphasis>data/analog/bf537/STEPPINGS</emphasis>:</simpara>
-
 <literallayout class="monospaced">0010  bf537           2</literallayout>
-<simpara>The part's stepping is <literal>0010</literal>, signal information can be found in the file
+<simpara>The part&#8217;s stepping is <literal>0010</literal>, signal information can be found in the file
 <emphasis>data/analog/bf537/bf537</emphasis>, and the human friendly stepping name is <literal>2</literal>.</simpara>
-
 </section>
 </section>
 </section>
@@ -2928,154 +2736,154 @@ Use SourceForge trackers
 <title>F.A.Q.</title>
 <simpara>For a list of known problems in current versions, please also check the "Bugs"
 tracker at the UrJTAG website!</simpara>
-
-<variablelist>
-<varlistentry>
-<term>
-Q. The documentation is incomplete. Where can I get more information?
-</term>
+<orderedlist numeration="upperalpha">
 <listitem>
 <simpara>
-  A. Please ask in the "Using UrJTAG" Forum on <ulink url="http://urjtag.org">http://urjtag.org</ulink>
+The documentation is incomplete. Where can I get more information?::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. My flash isn't detected or can't be programmed. What can I do?
-</term>
 <listitem>
 <simpara>
-  A. Please record the output of the "detect" and "detectflash" commands and ask in the Forum. If possible, re-compile UrJTAG before with "&#8212;enable-jedec-exp" to get extra information.
+Please ask in the "Using UrJTAG" Forum on <ulink url="http://urjtag.org">http://urjtag.org</ulink>
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. My CPU/FPGA/etc. chip isn't detected. What can I do?
-</term>
 <listitem>
 <simpara>
-  A. First try to get hold of a "BSDL" description of the chip from the vendor, and specify where to find this file to UrJTAG using "bsdl path" before you "detect". Second, a bus driver has to be selected. Maybe "ejtag" or "prototype" work.
+My flash isn&#8217;t detected or can&#8217;t be programmed. What can I do?::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. When I type "cable parallel 0x378 DLC5" (in a Cygwin environment) I get "Unknown port driver: parallel"?
-</term>
 <listitem>
 <simpara>
-  A. Please install the Cygwin ioperm package, and re-configure/compile.
+Please record the output of the "detect" and "detectflash" commands and ask in the Forum. If possible, re-compile UrJTAG before with "--enable-jedec-exp" to get extra information.
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. When I type "cable parallel 0x378 DLC5" (in a Cygwin environment) I get "Error: Cable initialization failed!".
-</term>
 <listitem>
 <simpara>
-  A. Please install ioperm.sys driver using <literal>ioperm -i</literal> command.
+My CPU/FPGA/etc. chip isn&#8217;t detected. What can I do?::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. When running autogen.sh, I get "Can't exec "autopoint": No such file or directory"
-</term>
 <listitem>
 <simpara>
-  A. You need the headers for gettext (e.g. Debian package "gettext-devel").
+First try to get hold of a "BSDL" description of the chip from the vendor, and specify where to find this file to UrJTAG using "bsdl path" before you "detect". Second, a bus driver has to be selected. Maybe "ejtag" or "prototype" work.
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. When running autogen.sh, it complains about missing CVS
-</term>
 <listitem>
 <simpara>
-  A. The easiest solution is to actually install CVS for this step, just to get around this error message.
+When I type "cable parallel 0x378 DLC5" (in a Cygwin environment) I get "Unknown port driver: parallel"?::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. During compilation, I get "svf_bison.y: No such file or directory"
-</term>
 <listitem>
 <simpara>
-  A. You need "bison".
+Please install the Cygwin ioperm package, and re-configure/compile.
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. During compilation, I get "flex: can't open &#8230; src/svf/svf_flex.l"
-</term>
 <listitem>
 <simpara>
-  A. You need "flex"
+When I type "cable parallel 0x378 DLC5" (in a Cygwin environment) I get "Error: Cable initialization failed!".::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. During compilation, I get "src/svf/svf_flex.l", line 27: unrecognized %option: bison-locations"
-</term>
 <listitem>
 <simpara>
-  A. You need a newer version of flex. It should be 2.5.31 or newer;
+Please install ioperm.sys driver using <literal>ioperm -i</literal> command.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+When running autogen.sh, I get "Can&#8217;t exec "autopoint": No such file or directory"::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+You need the headers for gettext (e.g. Debian package "gettext-devel").
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+When running autogen.sh, it complains about missing CVS::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The easiest solution is to actually install CVS for this step, just to get around this error message.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+During compilation, I get "svf_bison.y: No such file or directory"::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+You need "bison".
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+During compilation, I get "flex: can&#8217;t open &#8230; src/svf/svf_flex.l"::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+You need "flex"
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+During compilation, I get "src/svf/svf_flex.l", line 27: unrecognized %option: bison-locations"::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+You need a newer version of flex. It should be 2.5.31 or newer;
     Unfortunately, Cygwin comes with only 2.5.4a. You may try to compile and
     install a newer version of flex from source to solve this. The distributed
     source tarball contains source pregenerated with a current flex version,
     you need flex yourself only to compile from fresh SVN checkouts.
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. When running "make install", I get "Permission denied" errors
-</term>
 <listitem>
 <simpara>
-  A. If you want to install into a system directory (the default /usr/local is one), you'll have to run "make install" as the  superuser, e.g. do "sudo make install".
+When running "make install", I get "Permission denied" errors::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. My BSDL file defines the bus DAT as bit_vector(15 downto 0), how should I access single elements?
-</term>
 <listitem>
 <simpara>
-  A. BSDL syntax is an extension of the VHDL language. Array elements are indexed with
+If you want to install into a system directory (the default /usr/local is one), you&#8217;ll have to run "make install" as the  superuser, e.g. do "sudo make install".
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+My BSDL file defines the bus DAT as bit_vector(15 downto 0), how should I access single elements?::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+BSDL syntax is an extension of the VHDL language. Array elements are indexed with
     parentheses: DAT(4) selects index number 4 of the DAT vector. Also refer to the "print
     signals" command.
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. My board requires certain signals to be set to dedicated values before external memories can be accessed.
-</term>
 <listitem>
 <simpara>
-  A. Most (if not all) BSR-based bus drivers allow for static configurations of
-    pins that are controlled by BSR bits. Apply the required "set" commands before
-    issueing the "initbus &#8230;" command. These settings are preserved by all bus
-    related commands if they don't collide with the signals required for bus operation.
+My board requires certain signals to be set to dedicated values before external memories can be accessed.::
 </simpara>
 </listitem>
-</varlistentry>
-<varlistentry>
-<term>
-Q. My USB pod seems slow.
-</term>
 <listitem>
 <simpara>
-  A. USB-based JTAG pods suffer from a couple of intrinsic issues. Consider the
+Most (if not all) BSR-based bus drivers allow for static configurations of
+    pins that are controlled by BSR bits. Apply the required "set" commands before
+    issueing the "initbus &#8230;" command. These settings are preserved by all bus
+    related commands if they don&#8217;t collide with the signals required for bus operation.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+My USB pod seems slow.::
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+USB-based JTAG pods suffer from a couple of intrinsic issues. Consider the
     following to get maximum performance:
 </simpara>
 <itemizedlist>
@@ -3093,8 +2901,7 @@ Connect the pod via a high speed USB hub to a high speed USB host port.
 </listitem>
 </itemizedlist>
 </listitem>
-</varlistentry>
-</variablelist>
+</orderedlist>
 </chapter>
 <chapter id="_licensing">
 <title>Licensing</title>
@@ -3103,7 +2910,6 @@ Connect the pod via a high speed USB hub to a high speed USB host port.
 <simpara>Various licenses are used for the UrJTAG project. The GPL is used for most
 of the code except for some include files, JIM, and cable driver source, where
 a BSD or MIT license is used; this is noted in the file headers.</simpara>
-
 </section>
 <section id="_gnu_free_documentation_license_fdl">
 <title>GNU Free Documentation License (FDL)</title>

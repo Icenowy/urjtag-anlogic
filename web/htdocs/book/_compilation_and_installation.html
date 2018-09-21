@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
 <HTML
 ><HEAD
 ><TITLE
@@ -108,7 +108,7 @@ manager without any warning sign, UrJTAG probably is able to talk to it.</P
 ><P
 >Finally, UrJTAG additionally needs libusb-win32 to talk to some USB cables that
 are not based on FTDI chips (Xilinx Platform Cable USB, Segger J-Link). The
-so-called libusb-win32 filter driver is available from the project's download
+so-called libusb-win32 filter driver is available from the project&#8217;s download
 page at Sourceforge:</P
 ><PRE
 CLASS="literallayout"
@@ -123,7 +123,8 @@ NAME="_required_software_for_compiling_urjtag"
 >2.4.2. Required software for compiling UrJTAG</A
 ></H2
 ><P
->To run autogen.sh, you need autoconf and automake, bison, and a recent flex.</P
+>To run autogen.sh, you need autoconf and automake, bison, pkg-config
+and a recent flex.</P
 ><P
 >The distributed source tarball contains source pregenerated with a current
 flex version; flex therefore is only needed if you want to compile code
@@ -168,13 +169,13 @@ NAME="_required_libraries_for_usb_support"
 to USB-to-parallel converters), one or more additional libraries are required.</P
 ><P
 >Many USB JTAG adapters and USB-to-parallel converters are based on chips
-made by FTDI. To support these, either intra.net's "libftdi" or FTDI's
+made by FTDI. To support these, either intra.net&#8217;s "libftdi" or FTDI&#8217;s
 "FTD2XX" library can be used.</P
 ><P
 >On many modern Linux distributions, libftdi is available as a precompiled
-package and can be installed using the distribution's package management system
-(e.g. "apt-get libftdi-dev" for Debian and Ubuntu). If it isn't available or
-you don't run Linux, you can get it from</P
+package and can be installed using the distribution&#8217;s package management system
+(e.g. "apt-get libftdi-dev" for Debian and Ubuntu). If it isn&#8217;t available or
+you don&#8217;t run Linux, you can get it from</P
 ><P
 ></P
 ><UL
@@ -190,7 +191,7 @@ TARGET="_top"
 ></UL
 ><P
 >Alternatively, you can use the FTD2XX library from the chip manufacturer FTDI.
-It is available for Linux and Windows. There's more information about linking
+It is available for Linux and Windows. There&#8217;s more information about linking
 to that library in a Cygwin environment below.</P
 ><P
 >All other USB JTAG adapters can be supported only if libusb is installed.
@@ -286,7 +287,7 @@ TARGET="_top"
 ><P
 >Unzip the archive into a directory of your choice (probably a choice
 without spaces in the name is better) and afterwards run configure with the
-"&#8212;with-ftd2xx" pointing to that directory, e.g.</P
+"--with-ftd2xx" pointing to that directory, e.g.</P
 ><PRE
 CLASS="literallayout"
 >./configure --with-ftd2xx="/cygdrive/c/temp/ftdi-cdm-drivers"</PRE
@@ -344,7 +345,7 @@ TARGET="_top"
 >http://www.mingw.org</A
 >), or Cygwin GCC with the "-mno-cygwin" compiler flag.</P
 ><P
->This has the advantage over running in a Cygwin environment that you don't need
+>This has the advantage over running in a Cygwin environment that you don&#8217;t need
 to install anything else but the jtag.exe (plus libraries like FTD2XX.dll or
 InpOut32.DLL that are required for device access under Windows in any case).</P
 ><P
@@ -364,8 +365,8 @@ CLASS="literallayout"
 >./configure --host=i586-mingw32msvc --with-ftd2xx=/tmp/cdm-drivers --with-inpout32
 make</PRE
 ><P
->The "&#8212;with-inpout32" switch tells UrJTAG to use the InpOut32.DLL for access to
-parallel ports, because the Cygwin ioperm isn't available for MinGW. The InpOut32
+>The "--with-inpout32" switch tells UrJTAG to use the InpOut32.DLL for access to
+parallel ports, because the Cygwin ioperm isn&#8217;t available for MinGW. The InpOut32
 library is available from logix4u.net:</P
 ><PRE
 CLASS="literallayout"
@@ -392,7 +393,7 @@ run</P
 CLASS="literallayout"
 >./configure --help</PRE
 ><P
->to figure out the appropriate &#8212;enable-bus, &#8212;enable-cable, and &#8212;enable-lowlevel
+>to figure out the appropriate --enable-bus, --enable-cable, and --enable-lowlevel
 options.</P
 ></DIV
 ><DIV
@@ -413,9 +414,9 @@ CLASS="literallayout"
   ...
   Build BSDL subsystem : yes</PRE
 ><P
->Flex is only required when you're working on a check-out of the Subversion
+>Flex is only required when you&#8217;re working on a check-out of the Subversion
 repository. In this case Flex has to be called to transform bsdl_flex.l to
-bsdl_flex.c. When you're compiling from released sources, the local Flex
+bsdl_flex.c. When you&#8217;re compiling from released sources, the local Flex
 version is not relevant since the output file of Flex is part of the
 tarball. I.e. even if the local Flex fails the check, the BSDL subsystem is
 enabled and will be compiled from the released C files.</P

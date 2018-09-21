@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
 <HTML
 ><HEAD
 ><TITLE
@@ -128,7 +128,7 @@ NAME="_cable_specific_drivers_src_tap_cable"
 ></H2
 ><P
 >Cable-specific drivers are those which are visible to the user through
-the "jtag" command shell. They're listed in response to the "help cable"
+the "jtag" command shell. They&#8217;re listed in response to the "help cable"
 command. Each driver has to provide the following functions:</P
 ><P
 ></P
@@ -174,7 +174,7 @@ NAME="_initialization"
 ></H3
 ><P
 >After allocating a "cable_t" structure, a pointer to it and further
-parameters (as strings) have to be passed first  to the selected cable's
+parameters (as strings) have to be passed first  to the selected cable&#8217;s
 connect() function.</P
 ><P
 >Following that, the init() function is called via cable_init(). If cable_init()
@@ -216,27 +216,27 @@ a disconnect() function for this purpose:</P
 TYPE="1"
 ><LI
 ><P
->&#13;Low level (e.g. parport) driver calls cable driver-&#62;disconnect()
+>&#13;Low level (e.g. parport) driver calls cable driver&#8594;disconnect()
 </P
 ></LI
 ><LI
 ><P
->&#13;cable driver-&#62;disconnect() calls chain_disconnect()
+>&#13;cable driver&#8594;disconnect() calls chain_disconnect()
 </P
 ></LI
 ><LI
 ><P
->&#13;chain_disconnect() calls cable driver-&#62;done()
+>&#13;chain_disconnect() calls cable driver&#8594;done()
 </P
 ></LI
 ><LI
 ><P
->&#13;chain_disconnect() then calls cable driver-&#62;cable_free()
+>&#13;chain_disconnect() then calls cable driver&#8594;cable_free()
 </P
 ></LI
 ></OL
 ><P
->After return from chain_disconnect() to cable driver-&#62;disconnect(), the cable_t
+>After return from chain_disconnect() to cable driver&#8594;disconnect(), the cable_t
 structure has been freed and must not be accessed anymore.</P
 ></DIV
 ><DIV
@@ -276,7 +276,7 @@ TMS, TCK, TDI, and TDO).</P
 ></LI
 ></UL
 ><P
->For many JTAG adapters, there's almost no delay when doing alternating clock()
+>For many JTAG adapters, there&#8217;s almost no delay when doing alternating clock()
 and get_tdo(). Writing and reading happens immediately and the result is
 available immediately as well. This is the case with most parallel port
 adapters (but not when attached to USB-to-parallel adapters or USB docking
@@ -305,12 +305,12 @@ during transfer()s. Optionally, prior to each bit shifted out to the interface,
 TDO input can be read into memory (deserialized into a byte array of the same
 size as the input array).</P
 ><P
->It still doesn't yield much improvement if the operation consists of many read
+>It still doesn&#8217;t yield much improvement if the operation consists of many read
 and write transitions (e.g. repeatedly writing an instruction and some data
 register values, then reading from the data register, as it is necessary for
 memory access). For that reason, the above functions are also available in
-variants that don't cause immediate activity, but rather schedule it for later.
-In the API, they're visible as</P
+variants that don&#8217;t cause immediate activity, but rather schedule it for later.
+In the API, they&#8217;re visible as</P
 ><P
 ></P
 ><UL
@@ -341,7 +341,7 @@ In the API, they're visible as</P
 ></LI
 ></UL
 ><P
->These functions aren't implemented in the cable driver (but currently in
+>These functions aren&#8217;t implemented in the cable driver (but currently in
 src/tap/cable.c).  The cable driver just has to provide a flush() function to
 actually execute the queued activity in some cable-specific optimal way, and
 to store the results of get_tdo() and transfer() activity. The caller later
@@ -393,7 +393,7 @@ TYPE="1"
 ></LI
 ></OL
 ><P
->If the result of the first get_tdo() isn't absolutely required before the
+>If the result of the first get_tdo() isn&#8217;t absolutely required before the
 second clock(), the sequence can be optimized into the following sequence (if</P
 ><P
 ></P
@@ -444,7 +444,7 @@ takes one additional argument, "how_much", which may be one of</P
 ><UL
 ><LI
 ><P
->&#13;OPTIONALLY: The cable driver may flush if it's reasonable (e.g. if the
+>&#13;OPTIONALLY: The cable driver may flush if it&#8217;s reasonable (e.g. if the
    queue has been filled so that some buffer limit for the cable interface
    is reached). It would be wise to flush early to keep the queue small, if
    there is no point in queueing up more items because the transfer to the
@@ -455,7 +455,7 @@ takes one additional argument, "how_much", which may be one of</P
 ><LI
 ><P
 >&#13;TO_OUTPUT: The cable driver should at least flush as much so that one
-   output becomes available in the output queue. If there's already something
+   output becomes available in the output queue. If there&#8217;s already something
    in the output queue, this should be interpreted similar to OPTIONALLY. This
    is used by UrJTAG immediately before it wants to use that output.
 </P
@@ -497,7 +497,7 @@ two queues "todo" (with activity to be done) and "done" (with results):</P
 ></LI
 ></UL
 ><P
->In src/tap/cable/generic.c you'll find two implementations of dequeueing
+>In src/tap/cable/generic.c you&#8217;ll find two implementations of dequeueing
 algorithms, i.e. implementations of the flush() function. These could be used
 by any new cable driver unless it provides a more sophisticated algorithm
 itself:</P
@@ -735,7 +735,7 @@ NAME="_initialization_2"
 ></H3
 ><P
 >After creation of the new "bus_t" structure, the bus_init() function will
-be called to give the driver the possibility to initialize it's internal
+be called to give the driver the possibility to initialize it&#8217;s internal
 states or BSR bits as required. Such functionality has been split from
 bus_new() since some drivers require to re-initialize during runtime.</P
 ></DIV
@@ -749,7 +749,7 @@ NAME="_cleaning_up_2"
 ></H3
 ><P
 >The driver is supposed to free all allocated memory (including its "bus_t"
-structure). Additionally, it should set the device into a state that doesn't
+structure). Additionally, it should set the device into a state that doesn&#8217;t
 prevent it from normal operation.</P
 ></DIV
 ><DIV
@@ -790,7 +790,7 @@ NAME="_description_of_the_bus_geometry"
 >4.2.3.6. Description of the bus geometry</A
 ></H3
 ><P
->At certain stages, the bus driver's bus_area() function is called by other
+>At certain stages, the bus driver&#8217;s bus_area() function is called by other
 commands to query the bus geometry for a given address. The bus driver must
 fill in the fields of a "bus_area_t" structure describing the geometry of the
 area in which the specified address is located:</P

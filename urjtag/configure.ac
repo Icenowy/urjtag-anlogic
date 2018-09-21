@@ -23,7 +23,7 @@
 #  and other UrJTAG authors, 2007, 2008, ...
 #
 
-AC_INIT([UrJTAG], [2018.06], [http://urjtag.org], [urjtag])
+AC_INIT([UrJTAG], [2018.09], [http://urjtag.org], [urjtag])
 
 dnl autoconf-2.64 was released in 2008
 AC_PREREQ(2.64)

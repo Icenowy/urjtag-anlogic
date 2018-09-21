@@ -1,8 +1,9 @@
 $Id$
 
-urjtag-201WIP
+urjtag-2018.09
 
  * Added J-Link interface select, closes bug#127
+ * Prefix all REG_* with BFIN_REG, closed bug#119
 
 urtjag-2018.06
 

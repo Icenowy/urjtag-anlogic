@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU jtag 0.5.1\n"
 "Report-Msgid-Bugs-To: marcel@telka.sk\n"
-"POT-Creation-Date: 2018-06-21 13:43+0200\n"
+"POT-Creation-Date: 2018-09-21 23:32+0200\n"
 "PO-Revision-Date: 2004-05-10 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -3353,7 +3353,7 @@ msgstr ""
 msgid "JTAG target simulator JIM"
 msgstr ""
 
-#: src/tap/cable/jlink.c:600
+#: src/tap/cable/jlink.c:630
 msgid "Segger/IAR J-Link, Atmel SAM-ICE and others."
 msgstr ""
 

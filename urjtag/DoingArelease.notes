@@ -14,6 +14,7 @@ The actual release
 - Update the version in configure.ac
 - Put the same version number in NEWS
 -  ./autogen.sh
+-  make dist-xz # updates  .po files
 -  git add po/*.po
 -  git commit -m 'po/*.po timestamps due `./autogen.sh`'
 -  git status

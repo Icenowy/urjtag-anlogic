@@ -654,6 +654,7 @@ URJ_DRIVER_SET([bus], [
 
 # Enable cable drivers
 URJ_DRIVER_SET([cable], [
+	anlogic
 	arcom
 	byteblaster
 	dirtyjtag
@@ -685,6 +686,7 @@ URJ_DRIVER_SET([cable], [
 	])
 	AS_IF([test "x$HAVELIBUSB" = "xno"], [
 		drivers=`echo ${drivers} | $SED \
+			-e s/anlogic// \
 			-e s/dirtyjtag// \
 			-e s/ice100// \
 			-e s/jlink// \

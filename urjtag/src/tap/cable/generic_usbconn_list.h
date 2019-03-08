@@ -82,6 +82,9 @@ _URJ_USB(vsllink)
 #ifdef ENABLE_CABLE_DIRTYJTAG
 _URJ_USB(dirtyjtag)
 #endif
+#ifdef ENABLE_CABLE_ANLOGIC
+_URJ_USB(anlogic)
+#endif
 
 #undef _URJ_USB_FTDI
 #undef _URJ_USB_FTD2XX

@@ -197,4 +197,9 @@ libtap_la_SOURCES += \
 	cable/dirtyjtag.c
 endif
 
+if ENABLE_CABLE_ANLOGIC
+libtap_la_SOURCES += \
+	cable/anlogic.c
+endif
+
 AM_CFLAGS = $(WARNINGCFLAGS)

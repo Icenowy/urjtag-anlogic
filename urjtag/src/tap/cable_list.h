@@ -119,5 +119,8 @@ _URJ_CABLE(xpc_int)
 #ifdef ENABLE_CABLE_DIRTYJTAG
 _URJ_CABLE(dirtyjtag)
 #endif
+#ifdef ENABLE_CABLE_ANLOGIC
+_URJ_CABLE(anlogic)
+#endif
 
 #undef _URJ_CABLE

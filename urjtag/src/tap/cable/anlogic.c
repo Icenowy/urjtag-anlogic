@@ -360,7 +360,7 @@ const urj_cable_driver_t urj_tap_cable_anlogic_driver = {
   anlogic_transfer,
   anlogic_set_signal,
   anlogic_get_signal,
-  urj_tap_cable_generic_flush_one_by_one,
+  urj_tap_cable_generic_flush_using_transfer,
   urj_tap_cable_generic_usbconn_help
 };
 URJ_DECLARE_USBCONN_CABLE(0x0547, 0x1002, "libusb", "anlogic", anlogic)
